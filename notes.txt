@@ -1,0 +1,39 @@
+Facts:
+- Four interaction categories: 
+  - Student-Whom (Student/Teacher/System/Content) => SC is related to settings
+  - Frequency (Transmission of content/Creating class interactions) 
+        => Often: ToC: Resources, Announcments, Messages 
+        => Moderatly: CCI: creating class discussions, students submit assignment + grade them
+        => Rarely: Evaluating courses 
+  - Participation of user (Active/Passive) => passive interactiosn seems more important than on the first glimps.
+  - Login Activities
+- Moodles event system (which are the logs) already categorizes into teaching, participating and others
+- There are 500 different events by default
+
+Todos:
+- Define the output application (moodle web service, visualization in another tool)
+
+Questions:
+- Which courses should the user (connected to web service) see, when connecting to the system? (All, only his courses)
+
+Demands:
+- 
+
+Next Steps:
+- (Angel) figure out what courses can be used for testing
+- (Angel) takes care about anonymization of the user data
+- (Angel) figure out the moodle version where the courses took place
+
+- literature review
+- a new category might be the user device (mobile/desktop)
+- update the interactions category (papers citing this one have refined them already) => 
+- assign events to categories
+
+
+=> At the end holistic approach over all course
+
+
+Literature:
+- https://www.sciencedirect.com/science/article/pii/S0747563214005238?casa_token=1rF-rrTIrTEAAAAA:nUu5iGEIwiMQlqw8dBAvp2irdjDToala8l4l-i0VvKvnabJUxiCsHKUT8ACR3kyceZB-lslslO0
+- https://link.springer.com/chapter/10.1007/978-3-030-35758-0_37
+- Felder-Silverman learning style https://study.com/academy/lesson/the-felder-silverman-learning-styles-model.html
