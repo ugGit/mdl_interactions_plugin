@@ -10,30 +10,65 @@ Facts:
 - Moodles event system (which are the logs) already categorizes into teaching, participating and others
 - There are 500 different events by default
 
-Todos:
-- Define the output application (moodle web service, visualization in another tool)
 
-Questions:
-- Which courses should the user (connected to web service) see, when connecting to the system? (All, only his courses)
+Meeting Points:
+- Categorization is in progress. Takes time, but not blocking
+- Adding of the category course relevant (badges, competencies) for user agent (course meta interactions) => Gamification, soft skills.
+- Next steps: 
+  - define features (min: connection creation, course selection, import, preview, download/export) => yes, go with min
+  - technology (web service plugin in php, web app in vue/js) => has reservation regarding JS. Would prefer Python.
+  - what should the user connected through the web service see? How do we regulate it? over role? => teacher for a course, admin on general site
+- depending on the moodle version we might use the legacy keywords
 
-Demands:
-- 
+Condiderations:
+- the login/logout criteria can't be assigned to a particular class... rather take course viewed per day or other interval of time (e.g. 4h).
+- how should we classify forum events? Check to whom it was responded? What about the first post of a discussion?
+- how should we deal with comments in general? Student-Student/Teacher or is it regarding content?
+- how do we now if a message was sent within a class?
 
 Next Steps:
 - (Angel) figure out what courses can be used for testing
 - (Angel) takes care about anonymization of the user data
 - (Angel) figure out the moodle version where the courses took place
 
-- literature review
-- a new category might be the user device (mobile/desktop)
-- update the interactions category (papers citing this one have refined them already) => 
-- assign events to categories
++ literature review
++ a new category might be the user device (mobile/desktop)
++ update the interactions category (papers citing this one have refined them already) => 
++ assign events to categories
++ create list of non-assignable events and send to Ángel (suggest that it is reflective tasks as described in different learning frameworks)
+- select technology (Vue.js for speed)
+- update the export web service (we need to include more info than only the log such as role of users to distinguish teacher from student, list of users in class)
 
 
 => At the end holistic approach over all course
+=> Future it might be interesting to include user agent (desktop/web/mobile)
+=> To prevent possible misclassifications, we should check in detail the interactions that occur in our test courses and mention that in the paper.
 
 
 Literature:
 - https://www.sciencedirect.com/science/article/pii/S0747563214005238?casa_token=1rF-rrTIrTEAAAAA:nUu5iGEIwiMQlqw8dBAvp2irdjDToala8l4l-i0VvKvnabJUxiCsHKUT8ACR3kyceZB-lslslO0
 - https://link.springer.com/chapter/10.1007/978-3-030-35758-0_37
 - Felder-Silverman learning style https://study.com/academy/lesson/the-felder-silverman-learning-styles-model.html
+
+Example extract moodle log:
+               id: 43
+        eventname: \core\event\course_viewed
+        component: core
+           action: viewed
+           target: course
+      objecttable: NULL
+         objectid: NULL
+             crud: r
+         edulevel: 2
+        contextid: 25
+     contextlevel: 50
+contextinstanceid: 2
+           userid: 2
+         courseid: 2
+    relateduserid: NULL
+        anonymous: 0
+            other: null
+      timecreated: 1636536785
+           origin: web
+               ip: 172.19.0.1
+       realuserid: NULL
