@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CourseSelection</title>
+    <style>
+    </style>
+</head>
+<body>
+    <h1>CourseSelection</h1>
+    <ul>
+      {% for course in course_list %}
+        <li><a href="{% url 'course' course.courseid%}">{{ course.shortname }}</a></li>
+      {% endfor %}
+    </ul>
+</body>
+<html>
