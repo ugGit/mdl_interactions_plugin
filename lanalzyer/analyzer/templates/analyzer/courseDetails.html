@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CourseDetails</title>
+    <title>Course Details</title>
     <style>
       table {
         font-family: arial, sans-serif;
@@ -21,7 +21,8 @@
     </style>
 </head>
 <body>
-    <h1>CourseDetails</h1>
+    <h1>Course Details</h1>
+    <button href="{% url 'index' %}">Back to Connection Form</button>
     <table>
       <tr>
         {% for header in table_headers %}
@@ -31,8 +32,8 @@
 
       {% for entry in log %}
       <tr>
-        {% for cell in entry.items %}
-          <td>{{cell}}</td>
+        {% for _, cell_value in entry.items %}
+          <td>{{cell_value}}</td>
         {% endfor %}
       </tr>
       {% endfor %}

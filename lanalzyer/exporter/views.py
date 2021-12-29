@@ -39,17 +39,3 @@ def courselist(request):
     'course_list': response_course_list
   }
   return render(request, 'exporter/courseList.html', context)
-
-def course(request, course_id):
-  # fetch learning traces of course
-  webservice_function_course_details = 'local_moodle_ws_la_trace_exporter_get_course_data'
-  # TODO: the webservice function would support multiple courses at once
-  url_course_details = f'{request.session["mdl_url"]}/webservice/rest/server.php?wstoken={request.session["mdl_token"]}&wsfunction={webservice_function_course_details}&moodlewsrestformat=json&courseids[0]={course_id}'
-  response_course_details = requests.post(url_course_details).json()  
-  print(response_course_details)
-
-  context = {
-    'log': response_course_details,
-    'table_headers': response_course_details[0].keys()
-  }
-  return render(request, 'exporter/courseDetails.html', context)
