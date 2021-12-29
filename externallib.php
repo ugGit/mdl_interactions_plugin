@@ -170,17 +170,27 @@ class local_moodle_ws_la_trace_exporter_external extends external_api
     error_log('My variable logOutput is: ' . var_export(reset($logOutput), true));
     foreach ($logOutput as $item) {
       $currentItem = $item->get_data();
-      // Fetch all assigned roles in this course for the user
-      $roles = [];
+      // Fetch all assigned roles in this course for the user triggering the event and the related user if any
+      $rolesSubject = [];
+      $rolesRelated = [];
       foreach ($assignedRoles as $assignedRole) {
-        if ($assignedRole->userid == $currentItem["userid"] && $assignedRole->courseid == $currentItem["courseid"]) {
-          $roles[] = $assignedRole->shortname;
+        // only consider roles in the context of the currently iterated course
+        if ($assignedRole->courseid == $currentItem["courseid"]){
+          if ($assignedRole->userid == $currentItem["userid"]) {
+            $rolesSubject[] = $assignedRole->shortname;
+          }
+          if ($assignedRole->userid == $currentItem["relateduserid"]){
+            $rolesRelated[] = $assignedRole->shortname;
+          }
         }
       }
-      $role = (sizeof($roles) > 0) ? implode(', ', $roles) : "norole";
-      $currentItem["role"] = $role;
+      $roleSubject = (sizeof($rolesSubject) > 0) ? implode(', ', $rolesSubject) : "norole";
+      $roleRelated = (sizeof($rolesRelated) > 0) ? implode(', ', $rolesRelated) : "norole";
+      $currentItem["userrole"] = $roleSubject;
+      $currentItem["relateduserrole"] = $roleRelated;
       $result[] = $currentItem;
     }
+    error_log('My variable result is: ' . var_export(reset($result), true));
 
     // return var_dump($result);
     return $result;
@@ -203,8 +213,9 @@ class local_moodle_ws_la_trace_exporter_external extends external_api
           'edulevel' => new external_value(PARAM_INT, 'the level of educational value of the event'),
           'eventname' => new external_value(PARAM_TEXT, 'the full moodle event name'),
           'userid' => new external_value(PARAM_INT, 'the users id'),
-          'role' => new external_value(PARAM_TEXT, 'the role(s) assigned to the user in this course'),
+          'userrole' => new external_value(PARAM_TEXT, 'the role(s) assigned to the user in this course'),
           'relateduserid' => new external_value(PARAM_INT, 'the affected user if any'),
+          'relateduserrole' => new external_value(PARAM_TEXT, 'the role(s) assigned to the affected user in this course'),
           'courseid' => new external_value(PARAM_INT, 'the course id'),
           'timecreated' => new external_value(PARAM_INT, 'the creation time of the action'),
         )
