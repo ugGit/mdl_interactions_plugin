@@ -1,3 +1,38 @@
+Conclusion:
+- Download all logs, not only related to course
+- filter userid, and role in UI
+- much later start including actions of teachers
+- decide the visualizations
+  - the average number of interactions per student (compare between student and find anomalies)
+- APRIL 2022 - technical papers (a short why, why update since 2013, changes in mdl_log, focus on how to do this technically)
+- MAY 2022 - teem conference (human-computer behavior), top journal, around end of this year, more on the conceptual model
+- if extending existence work, half of the work must be new
+- Next steps:
+  - reviewing the excel file
+  - think about the visualizations
+  - box plots
+  - thursday next meeting 
+  - until 3 week of february the visualizations
+  - try to have the LASI paper until the end of march
+
+
+LASI22 paper 6 pages
+- Intro
+  - LA 
+  - Log based LA
+  - Moodle Log system
+  - previous classification
+  - problem statement (evolution of LMSs and their usage)
+- Main section
+  - present the tool (what happens, when, why)
+- Example extraction
+  - raw data 
+  - visualizations
+  
+  
+  
+
+
 Facts:
 - Four interaction categories: 
   - Student-Whom (Student/Teacher/System/Content) => SC is related to settings
@@ -12,37 +47,22 @@ Facts:
 
 
 Meeting Points:
-- Categorization is in progress. Takes time, but not blocking
-- Adding of the category course relevant (badges, competencies) for user agent (course meta interactions) => Gamification, soft skills.
-- Next steps: 
-  - define features (min: connection creation, course selection, import, preview, download/export) => yes, go with min
-  - technology (web service plugin in php, web app in vue/js) => has reservation regarding JS. Would prefer Python.
-  - what should the user connected through the web service see? How do we regulate it? over role? => teacher for a course, admin on general site
-- depending on the moodle version we might use the legacy keywords
+- the first milestone is only to have a valid classification system and basic analysis (no weighting of importance)
+- exclude site level events (use context level as criteria) (if not excluded, students with a single class have less of these events)
+- 
+
 
 Condiderations:
-- the login/logout criteria can't be assigned to a particular class... rather take course viewed per day or other interval of time (e.g. 4h).
-- how should we classify forum events? Check to whom it was responded? What about the first post of a discussion?
-- how should we deal with comments in general? Student-Student/Teacher or is it regarding content?
-- how do we now if a message was sent within a class?
+-
 
 Next Steps:
-- (Angel) figure out what courses can be used for testing
-- (Angel) takes care about anonymization of the user data
-- (Angel) figure out the moodle version where the courses took place
+- 
 
-+ literature review
-+ a new category might be the user device (mobile/desktop)
-+ update the interactions category (papers citing this one have refined them already) => 
-+ assign events to categories
-+ create list of non-assignable events and send to Ángel (suggest that it is reflective tasks as described in different learning frameworks)
-- select technology (Vue.js for speed)
-- update the export web service (we need to include more info than only the log such as role of users to distinguish teacher from student, list of users in class)
-
-
+=> remove the error_logs from the moodle plugin code
 => At the end holistic approach over all course
 => Future it might be interesting to include user agent (desktop/web/mobile)
 => To prevent possible misclassifications, we should check in detail the interactions that occur in our test courses and mention that in the paper.
+=> future work might be watching timestamps of assignment completion to deadline
 
 
 Literature:
