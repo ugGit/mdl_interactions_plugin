@@ -26,12 +26,12 @@ def course(request, course_id):
       return pickle.load(f)
 
   # TODO: decide where to fetch data from
-  # course_details = fetch_course_details_through_webservice();
+  course_details = fetch_course_details_through_webservice();
   # save_course_details_to_file(course_details)
-  course_details = load_course_details_through_file()
+  # course_details = load_course_details_through_file()
 
   context = {
-    'log': course_details[:1000], # TODO: currently limited to 1000 entries to speed up page loading
+    'log': course_details[-500:], # TODO: currently limited to 500 entries to speed up page loading
     'table_headers': course_details[0].keys()
   }
   return render(request, 'analyzer/courseDetails.html', context)

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head>
+  {% load static %}
+
+  <head>
     <title>Course Details</title>
     <style>
       table {
@@ -9,7 +11,8 @@
         width: 100%;
       }
 
-      td, th {
+      td,
+      th {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
@@ -18,25 +21,117 @@
       tr:nth-child(even) {
         background-color: #dddddd;
       }
-    </style>
-</head>
-<body>
-    <h1>Course Details</h1>
-    <button href="{% url 'index' %}">Back to Connection Form</button>
-    <table>
-      <tr>
-        {% for header in table_headers %}
-          <th>{{header}}</th>
-        {% endfor %}
-      </tr>
 
-      {% for entry in log %}
-      <tr>
-        {% for _, cell_value in entry.items %}
+    </style>
+    <script src="{% static 'vue-2.1.10.dist.js' %}"></script>
+    <script src="{% static 'plotly-2.9.0.min.js' %}"></script>
+    <script href="{% static 'bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'bootstrap-3.4.1-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap-3.4.1-dist/css/bootstrap-theme.min.css' %}">
+  </head>
+
+  <body>
+    <div id="vue-app" class="container">
+      <analyzing-tool></analyzing-tool>
+      <div id="tester" style="width:600px;height:250px;"></div>
+      <h1>Course Details</h1>
+      <a href="{% url 'exporter:moodleConnectionForm' %}" type="button">Back to Connection Form</a>
+      <br>
+      <br>
+      <table>
+        <tr>
+          {% for header in table_headers %}
+          <th>{{header}}</th>
+          {% endfor %}
+        </tr>
+
+        {% for entry in log %}
+        <tr>
+          {% for _, cell_value in entry.items %}
           <td>{{cell_value}}</td>
+          {% endfor %}
+        </tr>
         {% endfor %}
-      </tr>
-      {% endfor %}
-    </table>
-</body>
-<html>
+      </table>
+    </div>
+
+    <script type="x-template" id="analyzing-tool">
+      <div>
+          <h3>Filter</h3>
+          <div v-for="item in items" class="form-group" :class="{'has-success': item.completed}">
+              <div class="input-group">
+                  <div class="input-group-addon">
+                      <input type="checkbox" v-model="item.completed">
+                  </div>
+                  <input type="text" v-model="item.title" class="form-control">
+              </div>
+          </div>
+          <div class="form-group">
+              <div class="input-group">
+                  <input type="text" v-model="newItem" class="form-control">
+                  <div class="input-group-btn">
+                      <button class="btn" :class="{'btn-primary': newItem}" @click="addItem()">add!</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </script>
+    <script>
+      Vue.component('analyzing-tool', {
+        template: '#analyzing-tool',
+        data: function () {
+          return {
+            items: [
+              {
+                id: 'item-1',
+                title: 'Checkout vue',
+                completed: false
+              }, {
+                id: 'item-2',
+                title: 'Use this stuff!!',
+                completed: false
+              }
+            ],
+            newItem: ''
+
+          };
+        },
+        methods: {
+          addItem: function () {
+            if (this.newItem) {
+              var item = {
+                id: Math.random(0, 10000),
+                title: this.newItem,
+                completed: false
+              };
+
+              this.items.push(item);
+              this.newItem = '';
+            }
+          }
+        }
+      });
+
+      var app = new Vue({
+        el: '#vue-app'
+      });
+    </script>
+
+    <script>
+
+      TESTER = document.getElementById('tester');
+
+      Plotly.newPlot(TESTER, [{
+
+        x: [1, 2, 3, 4, 5],
+
+        y: [1, 2, 4, 8, 16]
+      }], {
+
+        margin: { t: 0 }
+      });
+
+    </script>
+    </body>
+
+</html>

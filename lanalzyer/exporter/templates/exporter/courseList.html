@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
+
+  <head>
     <title>CourseSelection</title>
     <style>
     </style>
-</head>
-<body>
+  </head>
+
+  <body>
     <h1>CourseSelection</h1>
     <ul>
       {% for course in course_list %}
-        <li><a href="{% url 'course' course.courseid%}">{{ course.shortname }}</a></li>
+      <li><a href="{% url 'analyzer:course' course.courseid %}">{{ course.shortname }}</a></li>
       {% endfor %}
     </ul>
-</body>
-<html>
+  </body>
+
+</html>
