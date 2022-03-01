@@ -23,98 +23,77 @@
       }
 
     </style>
-    <script src="{% static 'vue-2.1.10.dist.js' %}"></script>
     <script src="{% static 'plotly-2.9.0.min.js' %}"></script>
-    <script href="{% static 'bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="{% static 'bootstrap-3.4.1-dist/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'bootstrap-3.4.1-dist/css/bootstrap-theme.min.css' %}">
+    <script src="{% static 'vue.js' %}"></script>
+    <!-- vuetify imports -->
+    <script src="{% static 'vuetify.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'vuetify.min.css' %}">
   </head>
 
   <body>
-    <div id="vue-app" class="container">
-      <analyzing-tool></analyzing-tool>
-      <div id="tester" style="width:600px;height:250px;"></div>
-      <h1>Course Details</h1>
-      <a href="{% url 'exporter:moodleConnectionForm' %}" type="button">Back to Connection Form</a>
-      <br>
-      <br>
-      <table>
-        <tr>
-          {% for header in table_headers %}
-          <th>{{header}}</th>
-          {% endfor %}
-        </tr>
-
-        {% for entry in log %}
-        <tr>
-          {% for _, cell_value in entry.items %}
-          <td>{{cell_value}}</td>
-          {% endfor %}
-        </tr>
-        {% endfor %}
-      </table>
+    <div id="app">
+      <v-app>
+        <v-container>
+          <v-row>
+            <h3>Filter</h3>
+          </v-row>
+          <v-row>
+            <v-col cols="3">
+              <v-autocomplete v-model="values" :items="items" label="Actions" outlined dense chips small-chips multiple>
+              </v-autocomplete>
+            </v-col>
+          </v-row>
+          <div id="tester" style="width:600px;height:250px;"></div>
+          <h1>Course Details</h1>
+          <a href="{% url 'exporter:moodleConnectionForm' %}" type="button">Back to Connection Form</a>
+          <br>
+          <br>
+          <table>
+            <tr>
+              {% for header in table_headers %}
+              <th>{{header}}</th>
+              {% endfor %}
+            </tr>
+            <!--
+            {% for entry in log %}
+            <tr>
+              {% for _, cell_value in entry.items %}
+              <td>{{cell_value}}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+            -->
+          </table>
+        </v-container>
+      </v-app>
     </div>
 
-    <script type="x-template" id="analyzing-tool">
-      <div>
-          <h3>Filter</h3>
-          <div v-for="item in items" class="form-group" :class="{'has-success': item.completed}">
-              <div class="input-group">
-                  <div class="input-group-addon">
-                      <input type="checkbox" v-model="item.completed">
-                  </div>
-                  <input type="text" v-model="item.title" class="form-control">
-              </div>
-          </div>
-          <div class="form-group">
-              <div class="input-group">
-                  <input type="text" v-model="newItem" class="form-control">
-                  <div class="input-group-btn">
-                      <button class="btn" :class="{'btn-primary': newItem}" @click="addItem()">add!</button>
-                  </div>
-              </div>
-          </div>
-      </div>
-    </script>
+    {{ newlc_categories|json_script:"newlc_categories" }}
+    {{ newlc_category_sum_per_student|json_script:"newlc_category_sum_per_student" }}
+    {{ newlc_category_sum_average|json_script:"newlc_category_sum_average" }}
+    {{ filters|json_script:"filters" }}
     <script>
-      Vue.component('analyzing-tool', {
-        template: '#analyzing-tool',
-        data: function () {
-          return {
-            items: [
-              {
-                id: 'item-1',
-                title: 'Checkout vue',
-                completed: false
-              }, {
-                id: 'item-2',
-                title: 'Use this stuff!!',
-                completed: false
-              }
-            ],
-            newItem: ''
-
-          };
-        },
-        methods: {
-          addItem: function () {
-            if (this.newItem) {
-              var item = {
-                id: Math.random(0, 10000),
-                title: this.newItem,
-                completed: false
-              };
-
-              this.items.push(item);
-              this.newItem = '';
-            }
-          }
-        }
-      });
-
       var app = new Vue({
-        el: '#vue-app'
-      });
+        el: '#app',
+        vuetify: new Vuetify(),
+        data: {
+          values: [],
+          items: [1, 2, 3, 4, 5, 6, 10, 100],
+          newlc_categories: [],
+          newlc_category_sum_per_student: [],
+          newlc_category_sum_average: [],
+          filters: []
+        },
+
+        mounted() {
+          this.newlc_categories = JSON.parse(document.getElementById('newlc_categories').textContent)
+          this.newlc_category_sum_per_student = JSON.parse(document.getElementById('newlc_category_sum_per_student').textContent)
+          this.newlc_category_sum_average = JSON.parse(document.getElementById('newlc_category_sum_average').textContent)
+          this.filters = JSON.parse(document.getElementById('filters').textContent)
+        },
+      })
     </script>
 
     <script>
@@ -132,6 +111,6 @@
       });
 
     </script>
-    </body>
+  </body>
 
 </html>
