@@ -40,8 +40,9 @@
             <h3>Filter</h3>
           </v-row>
           <v-row>
-            <v-col cols="3">
-              <v-autocomplete v-model="values" :items="items" label="Actions" outlined dense chips small-chips multiple>
+            <v-col cols="6" v-for="key in Object.keys(filters)" :key="key">
+              <v-autocomplete v-model="filtersActive[key]" :items="filters[key]" :label="key" outlined dense chips
+                small-chips multiple>
               </v-autocomplete>
             </v-col>
           </v-row>
@@ -70,9 +71,11 @@
       </v-app>
     </div>
 
+    <!--
     {{ newlc_categories|json_script:"newlc_categories" }}
     {{ newlc_category_sum_per_student|json_script:"newlc_category_sum_per_student" }}
     {{ newlc_category_sum_average|json_script:"newlc_category_sum_average" }}
+    -->
     {{ filters|json_script:"filters" }}
     <script>
       var app = new Vue({
@@ -81,16 +84,19 @@
         data: {
           values: [],
           items: [1, 2, 3, 4, 5, 6, 10, 100],
-          newlc_categories: [],
-          newlc_category_sum_per_student: [],
-          newlc_category_sum_average: [],
-          filters: []
+          newlcCategories: [],
+          newlcCategorySumPerStudent: [],
+          newlcCategorySumAverage: [],
+          filters: {},
+          filtersActive: {},
         },
 
         mounted() {
-          this.newlc_categories = JSON.parse(document.getElementById('newlc_categories').textContent)
-          this.newlc_category_sum_per_student = JSON.parse(document.getElementById('newlc_category_sum_per_student').textContent)
-          this.newlc_category_sum_average = JSON.parse(document.getElementById('newlc_category_sum_average').textContent)
+          /*
+          this.newlcCategories = JSON.parse(document.getElementById('newlc_categories').textContent)
+          this.newlcCategorySumPerStudent = JSON.parse(document.getElementById('newlc_category_sum_per_student').textContent)
+          this.newlcCategorySumAverage = JSON.parse(document.getElementById('newlc_category_sum_average').textContent)
+          */
           this.filters = JSON.parse(document.getElementById('filters').textContent)
         },
       })

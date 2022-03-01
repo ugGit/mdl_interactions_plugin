@@ -41,7 +41,6 @@ def course(request, course_id):
   ''' Preprocess the data from the course log. This method is based on the pythoner notebook `category_mapper.ipynb`.'''
   def preprocess_course_log(unpreprocessed_course_log, event_list):
     course_log = unpreprocessed_course_log
-    print(course_log.info())
 
     # convert columns to strings for the course log
     course_log_string_columns = ["action", "target", "crud", "eventname", "userrole"]
