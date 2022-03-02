@@ -5,22 +5,19 @@
   <br />
   <v-container>
     <v-row>
-      <CourseLogFilters
-        :filter-options="courseLogFilterOptions"
-        @filterSelectionUpdated="updateFilterSelection"
-      />
+      <v-col cols="4">
+        <CourseLogFilters
+          :filter-options="courseLogFilterOptions"
+          @filterSelectionUpdated="updateFilterSelection"
+      /></v-col>
+      <v-col cols="8">
+        <CourseLogTable :course-log="courseLogFiltered" :is-loading="isLoading"
+      /></v-col>
     </v-row>
+    <v-row> </v-row>
     <v-row class="mt-8">
       <!-- margin top because custom style for multiselect messes up vuetify row layout -->
-      <CourseLogTable :course-log="courseLogFiltered" :is-loading="isLoading" />
     </v-row>
-
-    <br />
-    graph 1
-    <br />
-    graph 2
-    <br />
-    graph 3
   </v-container>
 </template>
 

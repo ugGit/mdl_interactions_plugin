@@ -1,28 +1,22 @@
 <template>
   <v-card style="overflow: visible">
-    <v-card-header>
-      Available Filters
-      <span style="color: red"
-        >(could be moved to sidepanel)</span
-      ></v-card-header
-    >
+    <v-card-header> Available Filters </v-card-header>
     <v-container>
-      <v-row>
-        <v-col cols="4" v-for="key in Object.keys(filterOptions)" :key="key">
-          <!-- Using VuewMultiselect because v-multiselect from Vuetify was not yet available (02.03.2022) -->
-          <label>{{ key }}</label>
-          <VueMultiselect
-            v-model="filtersActive[key]"
-            :options="filterOptions[key]"
-            :multiple="true"
-            :close-on-select="true"
-            placeholder="Select values"
-            @select="$emit('filterSelectionUpdated', filtersActive)"
-            @remove="$emit('filterSelectionUpdated', filtersActive)"
-          >
-          </VueMultiselect>
-        </v-col>
-      </v-row>
+      <template v-for="key in Object.keys(filterOptions)" :key="key">
+        <!-- Using VuewMultiselect because v-multiselect from Vuetify was not yet available (02.03.2022) -->
+        <label>{{ key }}</label>
+        <VueMultiselect
+          v-model="filtersActive[key]"
+          :options="filterOptions[key]"
+          :multiple="true"
+          :close-on-select="true"
+          placeholder="Select values"
+          @select="$emit('filterSelectionUpdated', filtersActive)"
+          @remove="$emit('filterSelectionUpdated', filtersActive)"
+          class="mb-3"
+        >
+        </VueMultiselect>
+      </template>
     </v-container>
   </v-card>
 </template>
