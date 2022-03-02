@@ -5,6 +5,7 @@ export default createStore({
     moodleToken: "",
     moodleUrl: "",
     moodleCurrentCourse: {},
+    eventMappings: {},
   },
   getters: {},
   mutations: {
@@ -16,6 +17,9 @@ export default createStore({
     },
     setMoodleCurrentCourse(state, course) {
       state.moodleCurrentCourse = course;
+    },
+    setEventMappings(state, ev) {
+      state.eventMappings = ev;
     },
   },
   actions: {},

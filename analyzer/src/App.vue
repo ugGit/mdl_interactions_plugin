@@ -1,11 +1,8 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+  <div style="height: 50px"></div>
   <v-app>
     <v-container>
-      <router-view/>
+      <router-view />
     </v-container>
   </v-app>
 </template>

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import ConnectionFormView from "../views/ConnectionFormView.vue";
 import SelectCourseFormView from "../views/SelectCourseFormView.vue";
+import SelectEventMappingFileFormView from "../views/SelectEventMappingFileFormView.vue";
 import CourseLogAnalyzerView from "../views/CourseLogAnalyzerView.vue";
 import store from "@/store";
 
@@ -16,18 +17,14 @@ const routes = [
     component: SelectCourseFormView,
   },
   {
+    path: "/eventmapper",
+    name: "selectEventMappingFileForm",
+    component: SelectEventMappingFileFormView,
+  },
+  {
     path: "/analyze",
     name: "analyzer",
     component: CourseLogAnalyzerView,
-  },
-  {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
 ];
 

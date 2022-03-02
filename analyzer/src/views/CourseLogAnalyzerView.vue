@@ -11,6 +11,7 @@
           @filterSelectionUpdated="updateFilterSelection"
       /></v-col>
       <v-col cols="8">
+        <NewLcRadarChart />
         <CourseLogTable :course-log="courseLogFiltered" :is-loading="isLoading"
       /></v-col>
     </v-row>
@@ -25,6 +26,7 @@
 // @ is an alias to /src
 import CourseLogFilters from "@/components/CourseLogFilters.vue";
 import CourseLogTable from "@/components/CourseLogTable.vue";
+import NewLcRadarChart from "@/components/NewLcRadarChart.vue";
 
 import { mapState } from "vuex";
 
@@ -35,6 +37,7 @@ export default {
   components: {
     CourseLogFilters,
     CourseLogTable,
+    NewLcRadarChart,
   },
   data: function () {
     return {
@@ -44,7 +47,12 @@ export default {
     };
   },
   computed: {
-    ...mapState(["moodleUrl", "moodleToken", "moodleCurrentCourse"]),
+    ...mapState([
+      "moodleUrl",
+      "moodleToken",
+      "moodleCurrentCourse",
+      "eventMappings",
+    ]),
 
     courseLogFilterOptions() {
       // init filter object with empty arrays for each field
@@ -90,7 +98,7 @@ export default {
     },
 
     eventCountPerUser() {
-      return this.courseLogRaw.reduce((perUser, row) => {
+      return this.courseLogFiltered.reduce((perUser, row) => {
         perUser[row.userid] = perUser[row.userid] || {};
         perUser[row.userid][row.eventname] =
           (perUser[row.userid][row.eventname] || 0) + 1;

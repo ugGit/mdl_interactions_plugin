@@ -42,7 +42,7 @@ export default {
     goToAnalyzingPage(courseProxy) {
       const course = Object.assign({}, courseProxy);
       this.$store.commit("setMoodleCurrentCourse", course);
-      this.$router.push({ name: "analyzer" });
+      this.$router.push({ name: "selectEventMappingFileForm" });
     },
   },
   mounted() {
