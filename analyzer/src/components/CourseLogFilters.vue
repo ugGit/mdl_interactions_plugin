@@ -1,22 +1,25 @@
 <template>
-  <h4>Available Filter</h4>
-  <v-container>
-    <v-row>
-      <v-col cols="4" v-for="key in Object.keys(filterOptions)" :key="key">
-        <!-- Using VuewMultiselect because v-multiselect from Vuetify was not yet available (02.03.2022) -->
-        <label>{{ key }}</label>
-        <VueMultiselect
-          v-model="filtersActive[key]"
-          :options="filterOptions[key]"
-          :multiple="true"
-          :close-on-select="true"
-          placeholder="Pick some"
-          @change="this.$emit('filterSelectionUpdated', filtersActive)"
-        >
-        </VueMultiselect>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-card>
+    <h4>Available Filter</h4>
+    <v-container>
+      <v-row>
+        <v-col cols="4" v-for="key in Object.keys(filterOptions)" :key="key">
+          <!-- Using VuewMultiselect because v-multiselect from Vuetify was not yet available (02.03.2022) -->
+          <label>{{ key }}</label>
+          <VueMultiselect
+            v-model="filtersActive[key]"
+            :options="filterOptions[key]"
+            :multiple="true"
+            :close-on-select="true"
+            placeholder="Pick some"
+            @select="$emit('filterSelectionUpdated', filtersActive)"
+            @remove="$emit('filterSelectionUpdated', filtersActive)"
+          >
+          </VueMultiselect>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-card>
 </template>
 
 <script>
@@ -25,6 +28,7 @@ export default {
   name: "CourseLogFilters",
   components: { VueMultiselect },
   props: ["filterOptions"],
+  emits: ["filterSelectionUpdated"],
   data: function () {
     return {
       filtersActive: {},

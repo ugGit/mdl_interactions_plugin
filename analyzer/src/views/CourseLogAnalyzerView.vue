@@ -21,6 +21,8 @@ import CourseLogFilters from "@/components/CourseLogFilters.vue";
 
 import { mapState } from "vuex";
 
+import { debounce } from "lodash";
+
 export default {
   name: "CourseLogAnalyzerView",
   components: {
@@ -54,7 +56,6 @@ export default {
 
         return filters;
       }, filterCategories);
-
       // sort all options alphabetically or numerically in ascending order
       for (let key in this.courseLogRaw[0]) {
         if (typeof options[key][0] == "number") {
@@ -63,8 +64,17 @@ export default {
           options[key].sort();
         }
       }
-
       return options;
+    },
+
+    courseLogFiltered() {
+      let courseLog = this.courseLogRaw;
+      for (const key in this.courseLogFilterActives) {
+        courseLog = courseLog.filter((row) => {
+          return this.courseLogFilterActives[key].includes(row[key]);
+        });
+      }
+      return courseLog;
     },
 
     eventCountPerUser() {
@@ -80,20 +90,26 @@ export default {
     fetchCourseData() {
       const moodleDataExportEndpoint = `${this.moodleUrl}/webservice/rest/server.php?wstoken=${this.moodleToken}&wsfunction=local_moodle_ws_la_trace_exporter_get_course_data&moodlewsrestformat=json&courseids[0]=${this.moodleCurrentCourse.courseid}`;
 
-      console.log(moodleDataExportEndpoint);
       fetch(moodleDataExportEndpoint)
         .then((response) => response.json())
         .then((data) => {
           this.courseLogRaw = data;
-
-          console.log("----------------------------------");
-
-          console.log();
         });
     },
-    updateFilterSelection(newSelection) {
+    // Use a debounced function to give Vue time to update values (reactivity delay)
+    updateFilterSelection: debounce(function (newSelection) {
+      console.log("Hi");
       this.courseLogFilterActives = newSelection;
-    },
+
+      console.log(this.courseLogFilterActives);
+      let courseLog = this.courseLogRaw;
+      for (const key in this.courseLogFilterActives) {
+        courseLog = courseLog.filter((row) => {
+          return this.courseLogFilterActives[key].includes(row[key]);
+        });
+      }
+      console.log(courseLog.length);
+    }, 100),
   },
   mounted() {
     this.fetchCourseData();
