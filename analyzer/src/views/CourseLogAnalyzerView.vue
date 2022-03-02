@@ -3,21 +3,31 @@
   <br />
   Next step: preprocessing (load excel, join, etc. look for numpy pendant)
   <br />
-  <CourseLogFilters
-    :filter-options="courseLogFilterOptions"
-    @filterSelectionUpdated="updateFilterSelection"
-  />
-  <br />
-  graph 1
-  <br />
-  graph 2
-  <br />
-  graph 3
+  <v-container>
+    <v-row>
+      <CourseLogFilters
+        :filter-options="courseLogFilterOptions"
+        @filterSelectionUpdated="updateFilterSelection"
+      />
+    </v-row>
+    <v-row class="mt-8">
+      <!-- margin top because custom style for multiselect messes up vuetify row layout -->
+      <CourseLogTable :course-log="courseLogFiltered" :is-loading="isLoading" />
+    </v-row>
+
+    <br />
+    graph 1
+    <br />
+    graph 2
+    <br />
+    graph 3
+  </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
 import CourseLogFilters from "@/components/CourseLogFilters.vue";
+import CourseLogTable from "@/components/CourseLogTable.vue";
 
 import { mapState } from "vuex";
 
@@ -27,11 +37,13 @@ export default {
   name: "CourseLogAnalyzerView",
   components: {
     CourseLogFilters,
+    CourseLogTable,
   },
   data: function () {
     return {
       courseLogRaw: [],
       courseLogFilterActives: {},
+      isLoading: true,
     };
   },
   computed: {
@@ -68,10 +80,13 @@ export default {
     },
 
     courseLogFiltered() {
-      let courseLog = this.courseLogRaw;
+      let courseLog = this.courseLogRaw.slice(); // create a copy of the raw course log
       for (const key in this.courseLogFilterActives) {
         courseLog = courseLog.filter((row) => {
-          return this.courseLogFilterActives[key].includes(row[key]);
+          return (
+            this.courseLogFilterActives[key].length == 0 || // prevent filtering by empty array of filter conditions
+            this.courseLogFilterActives[key].includes(row[key])
+          );
         });
       }
       return courseLog;

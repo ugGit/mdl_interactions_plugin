@@ -1,6 +1,11 @@
 <template>
   <v-card style="overflow: visible">
-    <h4>Available Filter</h4>
+    <v-card-header>
+      Available Filters
+      <span style="color: red"
+        >(could be moved to sidepanel)</span
+      ></v-card-header
+    >
     <v-container>
       <v-row>
         <v-col cols="4" v-for="key in Object.keys(filterOptions)" :key="key">
