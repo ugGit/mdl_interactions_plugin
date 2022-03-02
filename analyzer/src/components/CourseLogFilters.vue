@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card style="overflow: visible">
     <h4>Available Filter</h4>
     <v-container>
       <v-row>
@@ -11,7 +11,7 @@
             :options="filterOptions[key]"
             :multiple="true"
             :close-on-select="true"
-            placeholder="Pick some"
+            placeholder="Select values"
             @select="$emit('filterSelectionUpdated', filtersActive)"
             @remove="$emit('filterSelectionUpdated', filtersActive)"
           >
