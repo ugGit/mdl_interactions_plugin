@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import ConnectionFormView from "../views/ConnectionFormView.vue";
 import SelectCourseFormView from "../views/SelectCourseFormView.vue";
-import AnalyzerView from "../views/AnalyzerView.vue";
+import CourseLogAnalyzerView from "../views/CourseLogAnalyzerView.vue";
 import store from "@/store";
 
 const routes = [
@@ -18,7 +18,7 @@ const routes = [
   {
     path: "/analyze",
     name: "analyzer",
-    component: AnalyzerView,
+    component: CourseLogAnalyzerView,
   },
   {
     path: "/about",
