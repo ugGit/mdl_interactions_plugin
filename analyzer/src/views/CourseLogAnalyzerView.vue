@@ -52,6 +52,7 @@ export default {
       "moodleToken",
       "moodleCurrentCourse",
       "eventMappings",
+      "eventCategories",
     ]),
 
     courseLogFilterOptions() {
@@ -98,12 +99,41 @@ export default {
     },
 
     eventCountPerUser() {
-      return this.courseLogFiltered.reduce((perUser, row) => {
-        perUser[row.userid] = perUser[row.userid] || {};
-        perUser[row.userid][row.eventname] =
-          (perUser[row.userid][row.eventname] || 0) + 1;
-        return perUser;
-      }, {});
+      const ecpu = {};
+      for (let i = 0; i < this.courseLogFiltered.length; i++) {
+        ecpu[this.courseLogFiltered[i].userid] =
+          ecpu[this.courseLogFiltered[i].userid] || {};
+        ecpu[this.courseLogFiltered[i].userid][
+          this.courseLogFiltered[i].eventname
+        ] =
+          (ecpu[this.courseLogFiltered[i].userid][
+            this.courseLogFiltered[i].eventname
+          ] || 0) + 1;
+      }
+      return ecpu;
+    },
+
+    categoryCountPerUser() {
+      const ccPerUser = {};
+      for (const key in this.eventCountPerUser) {
+        const userInitialized = {};
+        for (let j = 0; j < this.eventCategories.length; j++) {
+          userInitialized[this.eventCategories[j]] = 0;
+        }
+        ccPerUser[key] = userInitialized;
+      }
+
+      for (const userKey in this.eventCountPerUser) {
+        for (const [eventnameKey, count] of Object.entries(
+          this.eventCountPerUser[userKey]
+        )) {
+          // get event category for current event
+          const eventCategory = this.eventMappings[eventnameKey].newlc;
+          // add to catgeory count for current user
+          ccPerUser[userKey][eventCategory] += count;
+        }
+      }
+      return ccPerUser;
     },
   },
   methods: {
@@ -118,17 +148,7 @@ export default {
     },
     // Use a debounced function to give Vue time to update values (reactivity delay)
     updateFilterSelection: debounce(function (newSelection) {
-      console.log("Hi");
       this.courseLogFilterActives = newSelection;
-
-      console.log(this.courseLogFilterActives);
-      let courseLog = this.courseLogRaw;
-      for (const key in this.courseLogFilterActives) {
-        courseLog = courseLog.filter((row) => {
-          return this.courseLogFilterActives[key].includes(row[key]);
-        });
-      }
-      console.log(courseLog.length);
     }, 100),
   },
   mounted() {

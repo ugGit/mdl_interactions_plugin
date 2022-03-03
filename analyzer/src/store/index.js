@@ -20,16 +20,23 @@ export default createStore({
       state.moodleCurrentCourse = course;
     },
     setEventMappings(state, ev) {
-      state.eventMappings = ev;
+      // create new object with the eventname as key
+      const eventMappings = {};
+      for (let i = 0; i < ev.length; i++) {
+        eventMappings[ev[i]["eventname"]] = ev[i];
+      }
+      state.eventMappings = eventMappings;
+      // get the unique event categories
       const ec = [];
-      for (let i = 0; i < state.eventMappings.length; i++) {
+      for (const key in state.eventMappings) {
         if (
-          state.eventMappings[i].newlc &&
-          !ec.includes(state.eventMappings[i].newlc)
+          state.eventMappings[key].newlc &&
+          !ec.includes(state.eventMappings[key].newlc)
         ) {
-          ec.push(state.eventMappings[i].newlc);
+          ec.push(state.eventMappings[key].newlc);
         }
       }
+      ec.sort();
       state.eventCategories = ec;
     },
   },
