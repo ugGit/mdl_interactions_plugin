@@ -1,7 +1,7 @@
 <template>
   <div>asd</div>
 
-  <div id="plotlyChart" style="width: 600px; height: 250px"></div>
+  <div id="plotlyChart"></div>
 </template>
 
 <script>

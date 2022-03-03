@@ -11,17 +11,7 @@
           @filterSelectionUpdated="updateFilterSelection"
       /></v-col>
       <v-col cols="8">
-        <Plotly
-          :data="[
-            {
-              x: [1, 2, 3, 4, 5],
-
-              y: [1, 2, 4, 8, 16],
-            },
-          ]"
-          :layout="{
-            margin: { t: 0 },
-          }" />
+        <Plotly :data="tmpData" :layout="tmpLayout" />
         <CourseLogTable :course-log="courseLogFiltered" :is-loading="isLoading"
       /></v-col>
     </v-row>
@@ -54,6 +44,32 @@ export default {
       courseLogRaw: [],
       courseLogFilterActives: {},
       isLoading: true,
+      tmpData: [
+        {
+          type: "scatterpolar",
+          r: [39, 28, 8, 7, 28, 39],
+          theta: ["A", "B", "C", "D", "E", "A"],
+          fill: "toself",
+        },
+
+        {
+          type: "scatterpolar",
+          r: [1.5, 10, 39, 31, 15, 1.5],
+          theta: ["A", "B", "C", "D", "E", "A"],
+          fill: "toself",
+          name: "Group B",
+        },
+      ],
+      tmpLayout: {
+        polar: {
+          radialaxis: {
+            visible: true,
+            range: [0, 50],
+          },
+        },
+
+        showlegend: true,
+      },
     };
   },
   computed: {
@@ -132,15 +148,16 @@ export default {
         }
         ccPerUser[key] = userInitialized;
       }
-
       for (const userKey in this.eventCountPerUser) {
         for (const [eventnameKey, count] of Object.entries(
           this.eventCountPerUser[userKey]
         )) {
           // get event category for current event
           const eventCategory = this.eventMappings[eventnameKey].newlc;
-          // add to catgeory count for current user
-          ccPerUser[userKey][eventCategory] += count;
+          // add to catgeory count for current user (except for undefined values)
+          if (eventCategory) {
+            ccPerUser[userKey][eventCategory] += count;
+          }
         }
       }
       return ccPerUser;
@@ -149,13 +166,30 @@ export default {
   methods: {
     fetchCourseData() {
       const moodleDataExportEndpoint = `${this.moodleUrl}/webservice/rest/server.php?wstoken=${this.moodleToken}&wsfunction=local_moodle_ws_la_trace_exporter_get_course_data&moodlewsrestformat=json&courseids[0]=${this.moodleCurrentCourse.courseid}`;
-
       fetch(moodleDataExportEndpoint)
         .then((response) => response.json())
         .then((data) => {
           this.courseLogRaw = data;
+
+          console.log("--------");
+          console.log(this.categoryCountPerUser["2"]);
+
+          const d = {
+            type: "scatterpolar",
+            r: Object.values(this.categoryCountPerUser["2"]),
+            theta: this.eventCategories,
+            fill: "toself",
+          };
+          const b = {
+            type: "scatterpolar",
+            r: Object.values(this.categoryCountPerUser["2"]),
+            theta: this.eventCategories,
+            fill: "toself",
+          };
+          this.tmpData = [d, b];
         });
     },
+
     // Use a debounced function to give Vue time to update values (reactivity delay)
     updateFilterSelection: debounce(function (newSelection) {
       this.courseLogFilterActives = newSelection;
