@@ -1,7 +1,7 @@
 <template>
   <v-card style="overflow: visible">
     <v-card-header> Available Filters </v-card-header>
-    <v-container>
+    <v-container style="text-align: left">
       <template v-for="key in Object.keys(filterOptions)" :key="key">
         <!-- Using VuewMultiselect because v-multiselect from Vuetify was not yet available (02.03.2022) -->
         <label>{{ key }}</label>
