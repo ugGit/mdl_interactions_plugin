@@ -3,8 +3,9 @@
     type="chart"
     :options="chartOptions"
     :redrawOnUpdate="true"
-    :oneToOneUpdate="false"
+    :oneToOneUpdate="true"
     :animateOnUpdate="true"
+    @updated="test"
   />
 </template>
 
@@ -17,12 +18,17 @@ HighchartsMore(HighCharts);
 
 export default {
   name: "CompareRadarChart",
-  props: ["plotData"],
+  props: ["plotData", "plotDataCategories"],
   components: {
     VueHighcharts,
   },
   data: function () {
     return {};
+  },
+  methods: {
+    test() {
+      console.log("heis");
+    },
   },
   computed: {
     chartOptions() {
@@ -51,14 +57,7 @@ export default {
         },
 
         xAxis: {
-          categories: [
-            "Sales",
-            "Marketing",
-            "Development",
-            "Customer Support",
-            "Information Technology",
-            "Administration",
-          ],
+          categories: this.plotDataCategories,
           tickmarkPlacement: "on",
           lineWidth: 0,
         },

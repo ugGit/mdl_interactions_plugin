@@ -6,7 +6,8 @@
   <v-container>
     <v-row>
       <v-col cols="4">
-        <CourseLogFilters
+        <course-log-filters
+          v-if="false"
           :filter-options="courseLogFilterOptions"
           @filterSelectionUpdated="updateFilterSelection"
       /></v-col>
@@ -15,8 +16,13 @@
           :possible-users="courseLogFilterOptions['userid']"
           @userSelectionUpdated="updateUserSelection"
         />
-        <compare-radar-chart :plot-data="plotData" v-if="plotData.length > 0" />
-        <CourseLogTable :course-log="courseLogFiltered" />
+        <compare-radar-chart
+          v-if="selectedUserData.length > 0"
+          :plot-data="selectedUserData"
+          :plot-data-categories="Object.values(eventCategories)"
+        />
+        <course-log-table :course-log="courseLogFiltered" v-if="false" />
+        <!-- TODO: for faster loading hidden -->
       </v-col>
     </v-row>
   </v-container>
@@ -46,7 +52,6 @@ export default {
       courseLogRaw: [],
       courseLogFilterActives: {},
       isLoading: true,
-      plotData: [],
       selectedUsersToPlot: [],
     };
   },
@@ -140,6 +145,17 @@ export default {
       }
       return ccPerUser;
     },
+
+    selectedUserData() {
+      const userData = [];
+      this.selectedUsersToPlot.forEach((userid) => {
+        userData.push({
+          data: Object.values(this.categoryCountPerUser[userid.toString()]),
+          name: "Student " + userid,
+        });
+      });
+      return userData;
+    },
   },
   methods: {
     fetchCourseData() {
@@ -149,25 +165,11 @@ export default {
         .then((data) => {
           this.courseLogRaw = data;
           this.isLoading = false;
-
-          console.log("--------");
-          console.log(this.categoryCountPerUser["2"]);
-
-          const d = {
-            data: Object.values(this.categoryCountPerUser["78"]),
-            name: "Student A",
-          };
-          const b = {
-            data: Object.values(this.categoryCountPerUser["77"]),
-            name: "Student B",
-          };
-          this.plotData = [d, b];
         });
     },
 
     // Use a debounced function to give Vue time to update computed variables based on active filters (reactivity delay)
     updateFilterSelection: debounce(function (newSelection) {
-      console.log(newSelection);
       this.courseLogFilterActives = newSelection;
     }, 100),
 
