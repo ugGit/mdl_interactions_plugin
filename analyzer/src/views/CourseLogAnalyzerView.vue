@@ -11,12 +11,9 @@
           @filterSelectionUpdated="updateFilterSelection"
       /></v-col>
       <v-col cols="8">
+        <compare-radar-chart :plot-data="plotData" v-if="plotData.length > 0" />
         <CourseLogTable :course-log="courseLogFiltered" :is-loading="isLoading"
       /></v-col>
-    </v-row>
-    <v-row> </v-row>
-    <v-row class="mt-8">
-      <!-- margin top because custom style for multiselect messes up vuetify row layout -->
     </v-row>
   </v-container>
 </template>
@@ -25,6 +22,7 @@
 // @ is an alias to /src
 import CourseLogFilters from "@/components/CourseLogFilters.vue";
 import CourseLogTable from "@/components/CourseLogTable.vue";
+import CompareRadarChart from "@/components/CompareRadarChart.vue";
 
 import { mapState } from "vuex";
 
@@ -35,38 +33,14 @@ export default {
   components: {
     CourseLogFilters,
     CourseLogTable,
+    CompareRadarChart,
   },
   data: function () {
     return {
       courseLogRaw: [],
       courseLogFilterActives: {},
       isLoading: true,
-      tmpData: [
-        {
-          type: "scatterpolar",
-          r: [39, 28, 8, 7, 28, 39],
-          theta: ["A", "B", "C", "D", "E", "A"],
-          fill: "toself",
-        },
-
-        {
-          type: "scatterpolar",
-          r: [1.5, 10, 39, 31, 15, 1.5],
-          theta: ["A", "B", "C", "D", "E", "A"],
-          fill: "toself",
-          name: "Group B",
-        },
-      ],
-      tmpLayout: {
-        polar: {
-          radialaxis: {
-            visible: true,
-            range: [0, 50],
-          },
-        },
-
-        showlegend: true,
-      },
+      plotData: [],
     };
   },
   computed: {
@@ -172,18 +146,14 @@ export default {
           console.log(this.categoryCountPerUser["2"]);
 
           const d = {
-            type: "scatterpolar",
-            r: Object.values(this.categoryCountPerUser["2"]),
-            theta: this.eventCategories,
-            fill: "toself",
+            data: Object.values(this.categoryCountPerUser["78"]),
+            name: "Student A",
           };
           const b = {
-            type: "scatterpolar",
-            r: Object.values(this.categoryCountPerUser["2"]),
-            theta: this.eventCategories,
-            fill: "toself",
+            data: Object.values(this.categoryCountPerUser["77"]),
+            name: "Student B",
           };
-          this.tmpData = [d, b];
+          this.plotData = [d, b];
         });
     },
 
