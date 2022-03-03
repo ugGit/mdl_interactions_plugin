@@ -10,10 +10,14 @@
           :filter-options="courseLogFilterOptions"
           @filterSelectionUpdated="updateFilterSelection"
       /></v-col>
-      <v-col cols="8">
+      <v-col cols="8" v-if="!isLoading">
+        <plot-user-selection
+          :possible-users="courseLogFilterOptions['userid']"
+          @userSelectionUpdated="updateUserSelection"
+        />
         <compare-radar-chart :plot-data="plotData" v-if="plotData.length > 0" />
-        <CourseLogTable :course-log="courseLogFiltered" :is-loading="isLoading"
-      /></v-col>
+        <CourseLogTable :course-log="courseLogFiltered" />
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -23,6 +27,7 @@
 import CourseLogFilters from "@/components/CourseLogFilters.vue";
 import CourseLogTable from "@/components/CourseLogTable.vue";
 import CompareRadarChart from "@/components/CompareRadarChart.vue";
+import PlotUserSelection from "@/components/PlotUserSelection.vue";
 
 import { mapState } from "vuex";
 
@@ -34,6 +39,7 @@ export default {
     CourseLogFilters,
     CourseLogTable,
     CompareRadarChart,
+    PlotUserSelection,
   },
   data: function () {
     return {
@@ -41,6 +47,7 @@ export default {
       courseLogFilterActives: {},
       isLoading: true,
       plotData: [],
+      selectedUsersToPlot: [],
     };
   },
   computed: {
@@ -141,6 +148,7 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.courseLogRaw = data;
+          this.isLoading = false;
 
           console.log("--------");
           console.log(this.categoryCountPerUser["2"]);
@@ -157,10 +165,15 @@ export default {
         });
     },
 
-    // Use a debounced function to give Vue time to update values (reactivity delay)
+    // Use a debounced function to give Vue time to update computed variables based on active filters (reactivity delay)
     updateFilterSelection: debounce(function (newSelection) {
+      console.log(newSelection);
       this.courseLogFilterActives = newSelection;
     }, 100),
+
+    updateUserSelection(newSelection) {
+      this.selectedUsersToPlot = newSelection;
+    },
   },
   mounted() {
     this.fetchCourseData();
