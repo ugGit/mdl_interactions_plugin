@@ -11,7 +11,6 @@
           @filterSelectionUpdated="updateFilterSelection"
       /></v-col>
       <v-col cols="8">
-        <Plotly :data="tmpData" :layout="tmpLayout" />
         <CourseLogTable :course-log="courseLogFiltered" :is-loading="isLoading"
       /></v-col>
     </v-row>
@@ -26,7 +25,6 @@
 // @ is an alias to /src
 import CourseLogFilters from "@/components/CourseLogFilters.vue";
 import CourseLogTable from "@/components/CourseLogTable.vue";
-import Plotly from "@/components/Plotly.vue";
 
 import { mapState } from "vuex";
 
@@ -37,7 +35,6 @@ export default {
   components: {
     CourseLogFilters,
     CourseLogTable,
-    Plotly,
   },
   data: function () {
     return {
