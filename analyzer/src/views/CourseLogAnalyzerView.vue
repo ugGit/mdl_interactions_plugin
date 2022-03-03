@@ -11,7 +11,17 @@
           @filterSelectionUpdated="updateFilterSelection"
       /></v-col>
       <v-col cols="8">
-        <NewLcRadarChart />
+        <Plotly
+          :data="[
+            {
+              x: [1, 2, 3, 4, 5],
+
+              y: [1, 2, 4, 8, 16],
+            },
+          ]"
+          :layout="{
+            margin: { t: 0 },
+          }" />
         <CourseLogTable :course-log="courseLogFiltered" :is-loading="isLoading"
       /></v-col>
     </v-row>
@@ -26,7 +36,7 @@
 // @ is an alias to /src
 import CourseLogFilters from "@/components/CourseLogFilters.vue";
 import CourseLogTable from "@/components/CourseLogTable.vue";
-import NewLcRadarChart from "@/components/NewLcRadarChart.vue";
+import Plotly from "@/components/Plotly.vue";
 
 import { mapState } from "vuex";
 
@@ -37,7 +47,7 @@ export default {
   components: {
     CourseLogFilters,
     CourseLogTable,
-    NewLcRadarChart,
+    Plotly,
   },
   data: function () {
     return {
