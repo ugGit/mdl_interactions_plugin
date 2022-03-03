@@ -58,10 +58,10 @@ export default {
     courseLogFilterOptions() {
       // init filter object with empty arrays for each field
       const filterCategories = {};
-      for (let key in this.courseLogRaw[0]) {
+      for (let key in this.courseLogFiltered[0]) {
         filterCategories[key] = [];
       }
-      const options = this.courseLogRaw.reduce((filters, row) => {
+      const options = this.courseLogFiltered.reduce((filters, row) => {
         for (let [key, val] of Object.entries(row)) {
           // add new filter option only if not yet present
           const index = filters[key].findIndex(
@@ -75,7 +75,7 @@ export default {
         return filters;
       }, filterCategories);
       // sort all options alphabetically or numerically in ascending order
-      for (let key in this.courseLogRaw[0]) {
+      for (let key in this.courseLogFiltered[0]) {
         if (typeof options[key][0] == "number") {
           options[key].sort((a, b) => a >= b);
         } else {
