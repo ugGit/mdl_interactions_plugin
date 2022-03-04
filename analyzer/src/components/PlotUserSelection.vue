@@ -2,18 +2,34 @@
   <v-card style="overflow: visible">
     <v-card-header> Select Users to Display </v-card-header>
     <v-container>
-      <!-- Using VuewMultiselect because v-multiselect from Vuetify was not yet available (02.03.2022) -->
-      <VueMultiselect
-        v-model="selectedUsers"
-        :options="possibleUsers"
-        :multiple="true"
-        :close-on-select="true"
-        placeholder="Select values"
-        @select="updateList()"
-        @remove="updateList()"
-        class="mb-3"
-      >
-      </VueMultiselect>
+      <v-row>
+        <v-col>
+          <!-- Using VuewMultiselect because v-multiselect from Vuetify was not yet available (02.03.2022) -->
+          <VueMultiselect
+            v-model="userA"
+            :options="possibleUsers"
+            :close-on-select="true"
+            placeholder="Select Dataset A to Visulize"
+            @select="updateList()"
+            @remove="updateList()"
+            :allowEmpty="false"
+          >
+          </VueMultiselect>
+        </v-col>
+        <v-col>
+          <!-- Using VuewMultiselect because v-multiselect from Vuetify was not yet available (02.03.2022) -->
+          <VueMultiselect
+            v-model="userB"
+            :options="possibleUsers"
+            :close-on-select="true"
+            placeholder="Select Dataset B to Visulize"
+            @select="updateList()"
+            @remove="updateList()"
+            :allowEmpty="false"
+          >
+          </VueMultiselect>
+        </v-col>
+      </v-row>
     </v-container>
   </v-card>
 </template>
@@ -30,14 +46,30 @@ export default {
   emits: ["userSelectionUpdated"],
   data: function () {
     return {
-      selectedUsers: [],
+      userA: undefined,
+      userB: undefined,
     };
+  },
+  computed: {
+    selectedUsers() {
+      return [this.userA, this.userB];
+    },
   },
   methods: {
     // Use a debounced function to get the updated value of this.selectedUsers
     updateList: debounce(function () {
       this.$emit("userSelectionUpdated", this.selectedUsers);
     }, 100),
+  },
+
+  mounted() {
+    if (this.possibleUsers.length >= 1) {
+      this.userA = this.possibleUsers[0];
+    }
+    if (this.possibleUsers.length >= 2) {
+      this.userB = this.possibleUsers[1];
+    }
+    this.updateList();
   },
 };
 </script>
