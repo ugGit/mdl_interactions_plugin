@@ -19,8 +19,12 @@
         <v-row>
           <v-col>
             <event-distribution-box-plot
-              v-if="Object.keys(categoryCountPerUser).length > 0"
+              v-if="
+                Object.keys(categoryCountPerUser).length > 0 &&
+                selectedUserData.length > 0
+              "
               :data="categoryCountPerUser"
+              :selected-users="selectedUserData"
             />
           </v-col>
         </v-row>

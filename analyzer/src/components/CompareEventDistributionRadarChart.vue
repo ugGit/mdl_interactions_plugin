@@ -27,11 +27,12 @@ export default {
   computed: {
     chartOptions() {
       const series = [];
-      this.plotData.forEach((element) => {
+      this.plotData.forEach((element, index) => {
         series.push({
           name: element.name,
           data: element.data,
           pointPlacement: "on",
+          color: HighCharts.getOptions().colors[index == 0 ? 0 : 3],
         });
       });
 
