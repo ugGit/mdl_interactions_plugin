@@ -28,8 +28,7 @@ export default {
     // inspired by: https://stackoverflow.com/a/30896483/6691953
     chartOptions() {
       //build the data and add the series to the chart
-      const boxData = [],
-        meanData = [];
+      const boxData = [];
 
       // get labels from input data (i.e. categories)
       const labels = Object.keys(this.data[Object.keys(this.data)[0]]);
@@ -50,27 +49,7 @@ export default {
         );
         boxValues.values.outliers = boxOutliers.map((x) => [i, x]); // TODO: place this properly
         boxData.push(boxValues.values);
-        meanData.push([i, this.mean(transformedData[i])]);
       }
-
-      console.log(this.selectedUsers);
-
-      console.log(
-        Object.entries(this.selectedUsers[0].data).map((point) => [
-          parseInt(point[0]),
-          point[1],
-        ])
-      );
-
-      console.log([
-        // x, y positions where x=0 is the first category
-        ...Array.prototype.concat(
-          // unpack  to meet expected format from highcharts
-          ...boxData
-            .filter((d) => d.outliers.length > 0) // ignore empty arrays
-            .map((d) => d.outliers)
-        ),
-      ]);
 
       return {
         chart: {
@@ -204,16 +183,6 @@ export default {
         result = data[Math.floor(index)];
       }
       return result;
-    },
-
-    //get the mean of an array of numbers
-    mean(data) {
-      var len = data.length;
-      var sum = 0;
-      for (var i = 0; i < len; i++) {
-        sum += parseFloat(data[i]);
-      }
-      return sum / len;
     },
 
     //because .sort() doesn't sort numbers correctly
