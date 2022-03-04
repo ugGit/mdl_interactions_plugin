@@ -1,28 +1,35 @@
 <template>
   <h2>Analyze course: {{ moodleCurrentCourse.shortname }}</h2>
-  <br />
-  Next step: preprocessing (load excel, join, etc. look for numpy pendant)
-  <br />
   <v-container>
     <v-row>
       <v-col cols="4">
         <course-log-filters
-          v-if="false"
           :filter-options="courseLogFilterOptions"
           @filterSelectionUpdated="updateFilterSelection"
       /></v-col>
       <v-col cols="8" v-if="!isLoading">
-        <plot-user-selection
-          :possible-users="courseLogFilterOptions['userid']"
-          @userSelectionUpdated="updateUserSelection"
-        />
-        <compare-radar-chart
-          v-if="selectedUserData.length > 0"
-          :plot-data="selectedUserData"
-          :plot-data-categories="Object.values(eventCategories)"
-        />
-        <course-log-table :course-log="courseLogFiltered" v-if="false" />
-        <!-- TODO: for faster loading hidden -->
+        <v-row>
+          <v-col>
+            <plot-user-selection
+              :possible-users="courseLogFilterOptions['userid']"
+              @userSelectionUpdated="updateUserSelection"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <compare-event-distribution-radar-chart
+              v-if="selectedUserData.length > 0"
+              :plot-data="selectedUserData"
+              :plot-data-categories="Object.values(eventCategories)"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <course-log-table :course-log="courseLogFiltered.slice(0, 10)" />
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -32,7 +39,7 @@
 // @ is an alias to /src
 import CourseLogFilters from "@/components/CourseLogFilters.vue";
 import CourseLogTable from "@/components/CourseLogTable.vue";
-import CompareRadarChart from "@/components/CompareRadarChart.vue";
+import CompareEventDistributionRadarChart from "@/components/CompareEventDistributionRadarChart.vue";
 import PlotUserSelection from "@/components/PlotUserSelection.vue";
 
 import { mapState } from "vuex";
@@ -44,7 +51,7 @@ export default {
   components: {
     CourseLogFilters,
     CourseLogTable,
-    CompareRadarChart,
+    CompareEventDistributionRadarChart,
     PlotUserSelection,
   },
   data: function () {

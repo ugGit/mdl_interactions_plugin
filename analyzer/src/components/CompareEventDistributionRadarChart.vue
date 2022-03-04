@@ -1,12 +1,14 @@
 <template>
-  <vue-highcharts
-    type="chart"
-    :options="chartOptions"
-    :redrawOnUpdate="true"
-    :oneToOneUpdate="true"
-    :animateOnUpdate="true"
-    @updated="test"
-  />
+  <v-card>
+    <v-card-header>Event Distribution</v-card-header>
+    <vue-highcharts
+      type="chart"
+      :options="chartOptions"
+      :redrawOnUpdate="true"
+      :oneToOneUpdate="true"
+      :animateOnUpdate="true"
+    />
+  </v-card>
 </template>
 
 <script>
@@ -17,18 +19,10 @@ import HighchartsMore from "highcharts/highcharts-more";
 HighchartsMore(HighCharts);
 
 export default {
-  name: "CompareRadarChart",
+  name: "CompareEventDistributionRadarChart",
   props: ["plotData", "plotDataCategories"],
   components: {
     VueHighcharts,
-  },
-  data: function () {
-    return {};
-  },
-  methods: {
-    test() {
-      console.log("heis");
-    },
   },
   computed: {
     chartOptions() {
@@ -48,8 +42,8 @@ export default {
         },
 
         title: {
-          text: "Event Distribution",
-          x: -80,
+          text: "",
+          hide: true,
         },
 
         pane: {
