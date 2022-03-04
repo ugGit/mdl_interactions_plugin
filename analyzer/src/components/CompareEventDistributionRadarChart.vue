@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-header>Event Distribution</v-card-header>
+    <v-card-header>Selected Users Event Distribution</v-card-header>
     <vue-highcharts
       type="chart"
       :options="chartOptions"

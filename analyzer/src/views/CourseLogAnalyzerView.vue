@@ -18,6 +18,14 @@
         </v-row>
         <v-row>
           <v-col>
+            <event-distribution-box-plot
+              v-if="Object.keys(categoryCountPerUser).length > 0"
+              :data="categoryCountPerUser"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
             <compare-event-distribution-radar-chart
               v-if="selectedUserData.length > 0"
               :plot-data="selectedUserData"
@@ -41,6 +49,7 @@ import CourseLogFilters from "@/components/CourseLogFilters.vue";
 import CourseLogTable from "@/components/CourseLogTable.vue";
 import CompareEventDistributionRadarChart from "@/components/CompareEventDistributionRadarChart.vue";
 import PlotUserSelection from "@/components/PlotUserSelection.vue";
+import EventDistributionBoxPlot from "@/components/EventDistributionBoxPlot.vue";
 
 import { mapState } from "vuex";
 
@@ -53,6 +62,7 @@ export default {
     CourseLogTable,
     CompareEventDistributionRadarChart,
     PlotUserSelection,
+    EventDistributionBoxPlot,
   },
   data: function () {
     return {
