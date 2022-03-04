@@ -1,4 +1,13 @@
 <template>
+  <nav style="text-align: right">
+    <v-btn
+      color="primary"
+      @click="$router.push({ name: 'connectionForm' })"
+      class="py-7"
+      >To Connection Form</v-btn
+    >
+  </nav>
+
   <div style="height: 50px"></div>
   <v-app>
     <v-container>
