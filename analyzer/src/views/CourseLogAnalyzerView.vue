@@ -11,7 +11,7 @@
         <v-row>
           <v-col>
             <plot-user-selection
-              :possible-users="courseLogFilterOptions['userid']"
+              :possible-users="possibleUsers"
               @userSelectionUpdated="updateUserSelection"
             />
           </v-col>
@@ -58,6 +58,8 @@ import EventDistributionBoxPlot from "@/components/EventDistributionBoxPlot.vue"
 import { mapState } from "vuex";
 
 import { debounce } from "lodash";
+
+import { averageFakeUserId } from "@/utils/constants";
 
 export default {
   name: "CourseLogAnalyzerView",
@@ -167,13 +169,49 @@ export default {
       return ccPerUser;
     },
 
+    categoryCountAverage() {
+      const len = Object.keys(this.categoryCountPerUser).length;
+      // init sum object for each category
+      const sum = {};
+      for (const category of this.eventCategories) {
+        sum[category] = 0;
+      }
+      // sum for each category
+      for (const user of Object.values(this.categoryCountPerUser)) {
+        for (const category of this.eventCategories) {
+          sum[category] = sum[category] + user[category];
+        }
+      }
+      // compute average for each category
+      for (const category of this.eventCategories) {
+        sum[category] = sum[category] / len;
+      }
+      return sum;
+    },
+
+    possibleUsers() {
+      // inject the fake user id
+      return [averageFakeUserId].concat(this.courseLogFilterOptions["userid"]);
+    },
+
     selectedUserData() {
       const userData = [];
       this.selectedUsersToPlot.forEach((userid) => {
-        userData.push({
-          data: Object.values(this.categoryCountPerUser[userid.toString()]),
-          name: "Student " + userid,
-        });
+        {
+          if (userid == averageFakeUserId) {
+            // use the average over all users
+            return userData.push({
+              data: Object.values(this.categoryCountAverage),
+              name: "Average",
+            });
+          } else {
+            // get data for user
+            return userData.push({
+              data: Object.values(this.categoryCountPerUser[userid.toString()]),
+              name: "Student " + userid,
+            });
+          }
+        }
       });
       return userData;
     },
