@@ -23,6 +23,15 @@
         </v-row>
         <v-row>
           <v-col>
+            <compare-event-distribution-radar-chart
+              v-if="selectedUserData.length > 0"
+              :plot-data="selectedUserData"
+              :plot-data-categories="Object.values(eventCategories)"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
             <event-distribution-box-plot
               v-if="
                 Object.keys(categoryCountPerUser).length > 0 &&
@@ -30,15 +39,6 @@
               "
               :data="categoryCountPerUser"
               :selected-users="selectedUserData"
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <compare-event-distribution-radar-chart
-              v-if="selectedUserData.length > 0"
-              :plot-data="selectedUserData"
-              :plot-data-categories="Object.values(eventCategories)"
             />
           </v-col>
         </v-row>
