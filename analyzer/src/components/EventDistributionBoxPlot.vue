@@ -8,6 +8,11 @@
       :oneToOneUpdate="true"
       :animateOnUpdate="true"
     />
+    <p class="text-caption py-5">
+      *The criteria for outliers at the lower boundary is set to: Q1 - (Q3 - Q1)
+      <br />
+      The same ratio applies for the upper boundary with: Q3 + (Q3 - Q1)
+    </p>
   </v-card>
 </template>
 
