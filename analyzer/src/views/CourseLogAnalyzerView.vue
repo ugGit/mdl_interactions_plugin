@@ -18,6 +18,11 @@
         </v-row>
         <v-row>
           <v-col>
+            <user-selection-details :user-details="selectedUserData" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
             <event-distribution-box-plot
               v-if="
                 Object.keys(categoryCountPerUser).length > 0 &&
@@ -54,6 +59,7 @@ import CourseLogTable from "@/components/CourseLogTable.vue";
 import CompareEventDistributionRadarChart from "@/components/CompareEventDistributionRadarChart.vue";
 import PlotUserSelection from "@/components/PlotUserSelection.vue";
 import EventDistributionBoxPlot from "@/components/EventDistributionBoxPlot.vue";
+import UserSelectionDetails from "@/components/UserSelectionDetails.vue";
 
 import { mapState } from "vuex";
 
@@ -69,6 +75,7 @@ export default {
     CompareEventDistributionRadarChart,
     PlotUserSelection,
     EventDistributionBoxPlot,
+    UserSelectionDetails,
   },
   data: function () {
     return {
@@ -203,12 +210,15 @@ export default {
             return userData.push({
               data: Object.values(this.categoryCountAverage),
               name: "Average",
+              role: null,
             });
           } else {
             // get data for user
             return userData.push({
               data: Object.values(this.categoryCountPerUser[userid.toString()]),
               name: "Student " + userid,
+              role: this.courseLogRaw.find((row) => row.userid == userid)
+                .userrole,
             });
           }
         }
