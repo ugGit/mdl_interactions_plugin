@@ -3,8 +3,8 @@
     <v-card-header>Selected Users Course Meta Information</v-card-header>
     <v-container>
       <v-row>
-        <v-col
-          >Course Grades Range: <span v-html="courseGradesRange"></span>
+        <v-col style="text-align: left">
+          Course Grades Range: <span v-html="courseGradesRange"></span>
         </v-col>
       </v-row>
       <v-row>
