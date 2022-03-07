@@ -15,8 +15,14 @@
         </thead>
         <tbody>
           <tr v-for="(row, index) in courseLog" :key="'row-' + index">
-            <td v-for="(col, i) in row" :key="'row-' + index + 'col-' + i">
-              {{ col }}
+            <td
+              v-for="(col, colName) in row"
+              :key="'row-' + index + 'col-' + colName"
+            >
+              <span v-if="colName == 'timecreated'">
+                {{ formatTimestampToDate(col) }}</span
+              >
+              <span v-else>{{ col }}</span>
             </td>
           </tr>
         </tbody>
@@ -29,8 +35,12 @@
 </template>
 
 <script>
+import { formatTimestampToDate } from "@/utils/helpers";
 export default {
   name: "CourseLogTable",
   props: ["courseLog", "isLoading"],
+  methods: {
+    formatTimestampToDate,
+  },
 };
 </script>
