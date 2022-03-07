@@ -4,15 +4,26 @@
     <v-container>
       <v-row>
         <v-col
-          v-for="user in onlyUsers"
+          >Course Grades Range: <span v-html="courseGradesRange"></span>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col
+          v-for="user in userDetails"
           :key="user.name"
           style="text-align: left"
         >
-          <span
-            ><b>{{ user.name }}</b></span
-          >
+          <b>{{ user.name }}</b>
           <br />
-          <span>Role: {{ user.role }}</span>
+          Role: {{ user.role }}
+          <br />
+          Grade:
+          <span v-if="user.grade"> {{ formatGrade(user.grade.grade) }} </span>
+          <br />
+          Graded at:
+          <span v-if="user.grade && user.grade.date">
+            {{ formatTimestampToDate(user.grade.date) }}
+          </span>
         </v-col>
       </v-row>
     </v-container>
@@ -21,14 +32,19 @@
 
 <script>
 import { averageFakeUserId } from "@/utils/constants";
+import { formatTimestampToDate, formatGrade } from "@/utils/helpers";
 
 export default {
   name: "UserSelectionDetails",
-  props: ["userDetails"],
+  props: ["userDetails", "courseGrades", "courseGradesRange"],
   computed: {
     onlyUsers() {
       return this.userDetails.filter((u) => u.name != averageFakeUserId);
     },
+  },
+  methods: {
+    formatTimestampToDate,
+    formatGrade,
   },
 };
 </script>

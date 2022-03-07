@@ -18,7 +18,11 @@
         </v-row>
         <v-row>
           <v-col>
-            <user-selection-details :user-details="selectedUserData" />
+            <user-selection-details
+              :user-details="selectedUserData"
+              :course-grades="courseGrades"
+              :course-grades-range="courseGradeRangeFromatted"
+            />
           </v-col>
         </v-row>
         <v-row>
@@ -83,6 +87,8 @@ export default {
       courseLogFilterActives: {},
       isLoading: true,
       selectedUsersToPlot: [],
+      courseGrades: {},
+      courseGradeRangeFromatted: "",
     };
   },
   computed: {
@@ -207,10 +213,17 @@ export default {
         {
           if (userid == averageFakeUserId) {
             // use the average over all users
+            let total = 0;
+            for (const grade of Object.values(this.courseGrades)) {
+              total += grade.grade;
+            }
+            const averageGrade = total / Object.keys(this.courseGrades).length;
+
             return userData.push({
               data: Object.values(this.categoryCountAverage),
               name: "Average",
-              role: null,
+              role: "norole",
+              grade: { grade: averageGrade },
             });
           } else {
             // get data for user
@@ -219,6 +232,7 @@ export default {
               name: "Student " + userid,
               role: this.courseLogRaw.find((row) => row.userid == userid)
                 .userrole,
+              grade: this.courseGrades[userid.toString()],
             });
           }
         }
@@ -243,7 +257,23 @@ export default {
       fetch(moodleDataExportEndpoint)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          for (const ug of data.usergrades) {
+            const courseGradeItem = ug.gradeitems.find(
+              (gi) => gi.itemtype == "course"
+            );
+            this.courseGrades[ug.userid] = {
+              date: courseGradeItem.gradedategraded,
+              grade: courseGradeItem.graderaw,
+            };
+          }
+
+          // TODO: store also grade min/grade max
+          const exampleGrade = data.usergrades[0].gradeitems.find(
+            (gi) => gi.itemtype == "course"
+          );
+          this.courseGradeRangeFromatted = exampleGrade
+            ? exampleGrade.rangeformatted
+            : "undefined";
         });
     },
 
