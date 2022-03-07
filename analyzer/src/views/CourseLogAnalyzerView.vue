@@ -11,7 +11,7 @@
         <v-row>
           <v-col>
             <plot-user-selection
-              :possible-users="possibleUsers"
+              :possible-users-data="possibleUsers"
               @userSelectionUpdated="updateUserSelection"
             />
           </v-col>

@@ -7,7 +7,7 @@
           <!-- Using VuewMultiselect because v-multiselect from Vuetify was not yet available (02.03.2022) -->
           <VueMultiselect
             v-model="userA"
-            :options="possibleUsers"
+            :options="possibleUsersData"
             :close-on-select="true"
             placeholder="Select Dataset A to Visulize"
             @select="updateList()"
@@ -20,7 +20,7 @@
           <!-- Using VuewMultiselect because v-multiselect from Vuetify was not yet available (02.03.2022) -->
           <VueMultiselect
             v-model="userB"
-            :options="possibleUsers"
+            :options="possibleUsersData"
             :close-on-select="true"
             placeholder="Select Dataset B to Visulize"
             @select="updateList()"
@@ -42,7 +42,7 @@ import { debounce } from "lodash";
 export default {
   name: "PlotUserSelection",
   components: { VueMultiselect },
-  props: ["possibleUsers"],
+  props: ["possibleUsersData"],
   emits: ["userSelectionUpdated"],
   data: function () {
     return {
@@ -63,11 +63,11 @@ export default {
   },
 
   mounted() {
-    if (this.possibleUsers.length >= 1) {
-      this.userA = this.possibleUsers[0];
+    if (this.possibleUsersData.length >= 1) {
+      this.userA = this.possibleUsersData[0];
     }
-    if (this.possibleUsers.length >= 2) {
-      this.userB = this.possibleUsers[1];
+    if (this.possibleUsersData.length >= 2) {
+      this.userB = this.possibleUsersData[1];
     }
     this.updateList();
   },
