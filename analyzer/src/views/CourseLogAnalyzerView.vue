@@ -227,13 +227,23 @@ export default {
     },
   },
   methods: {
-    fetchCourseData() {
-      const moodleDataExportEndpoint = `${this.moodleUrl}/webservice/rest/server.php?wstoken=${this.moodleToken}&wsfunction=local_moodle_ws_la_trace_exporter_get_course_data&moodlewsrestformat=json&courseids[0]=${this.moodleCurrentCourse.courseid}`;
+    fetchCourseLog() {
+      const wsFunction = "local_moodle_ws_la_trace_exporter_get_course_data";
+      const moodleDataExportEndpoint = `${this.moodleUrl}/webservice/rest/server.php?wstoken=${this.moodleToken}&wsfunction=${wsFunction}&moodlewsrestformat=json&courseids[0]=${this.moodleCurrentCourse.courseid}`;
       fetch(moodleDataExportEndpoint)
         .then((response) => response.json())
         .then((data) => {
           this.courseLogRaw = data;
           this.isLoading = false;
+        });
+    },
+    fetchCourseGrade() {
+      const wsFunction = "gradereport_user_get_grade_items";
+      const moodleDataExportEndpoint = `${this.moodleUrl}/webservice/rest/server.php?wstoken=${this.moodleToken}&wsfunction=${wsFunction}&moodlewsrestformat=json&courseid=${this.moodleCurrentCourse.courseid}`;
+      fetch(moodleDataExportEndpoint)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
         });
     },
 
@@ -247,7 +257,8 @@ export default {
     },
   },
   mounted() {
-    this.fetchCourseData();
+    this.fetchCourseGrade();
+    this.fetchCourseLog();
   },
 };
 </script>

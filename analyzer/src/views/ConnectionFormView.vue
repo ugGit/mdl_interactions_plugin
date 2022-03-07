@@ -56,7 +56,7 @@ export default {
       }
 
       // try fetching the token from the moodle instance
-      const moodleTokenEndpoint = `${this.url}/login/token.php?username=${this.username}&password=${this.password}&service=wafed_webservices`;
+      const moodleTokenEndpoint = `${this.url}/login/token.php?username=${this.username}&password=${this.password}&service=loganalyzer`;
       fetch(moodleTokenEndpoint)
         .then((response) => response.json())
         .then((data) => {
