@@ -49,14 +49,23 @@ Facts:
 Meeting Points:
 - the first milestone is only to have a valid classification system and basic analysis (no weighting of importance)
 - exclude site level events (use context level as criteria) (if not excluded, students with a single class have less of these events)
-- 
+
 
 
 Condiderations:
 -
 
 Next Steps:
-- 
++ Create BoxPlot
++ highlight selected users in boxplot (ad like outliers, other color though)
++ add info how lowerFence is calculated under boxplot
+- Create simple custom dataTable with sort, pagination, and show/hide column features. Pass all data to component, then simply render a clickable header that triggers sort. List all available columns with checkboxes to trigger display/hide, and calculate pagination using buttons
++ Calculate and display the average
++ add role to student information when selecting for plot
+- add grade for selected students (maybe there exists already a webservice for this)
+- create a plot to show "Frequency of events per category"
+- table of 20 most occured events (later data table instead of simple table)
+
 
 => remove the error_logs from the moodle plugin code
 => At the end holistic approach over all course
