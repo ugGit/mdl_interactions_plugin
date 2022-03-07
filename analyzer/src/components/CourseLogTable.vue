@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-header> Events </v-card-header>
+    <v-card-header> Log Table Extract (10 items)</v-card-header>
     <v-table v-if="courseLog.length > 0">
       <template v-slot:default>
         <thead>
