@@ -3,19 +3,22 @@
     <v-card-header> Available Filters </v-card-header>
     <v-container style="text-align: left">
       <template v-for="key in Object.keys(filterOptions)" :key="key">
-        <!-- Using VuewMultiselect because v-multiselect from Vuetify was not yet available (02.03.2022) -->
-        <label>{{ key }}</label>
-        <VueMultiselect
-          v-model="filtersActive[key]"
-          :options="filterOptions[key]"
-          :multiple="true"
-          :close-on-select="true"
-          placeholder="Select values"
-          @select="$emit('filterSelectionUpdated', filtersActive)"
-          @remove="$emit('filterSelectionUpdated', filtersActive)"
-          class="mb-3"
-        >
-        </VueMultiselect>
+        <!-- Exclude timecreated filter for the moment. Could be implemented as range -->
+        <template v-if="key != 'timecreated'">
+          <!-- Using VuewMultiselect because v-multiselect from Vuetify was not yet available (02.03.2022) -->
+          <label>{{ key }}</label>
+          <VueMultiselect
+            v-model="filtersActive[key]"
+            :options="filterOptions[key]"
+            :multiple="true"
+            :close-on-select="true"
+            placeholder="Select values"
+            @select="$emit('filterSelectionUpdated', filtersActive)"
+            @remove="$emit('filterSelectionUpdated', filtersActive)"
+            class="mb-3"
+          >
+          </VueMultiselect>
+        </template>
       </template>
     </v-container>
   </v-card>
