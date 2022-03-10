@@ -14,5 +14,5 @@ Hereafter the different project folders are quickly described:
 The here contained `docker-compose.yml` configuration file allows to setup a containerized Moodle instance. If `docker` and `docker-compose` have been installed, simply run the following command and access the Moodle instance on http://localhost:8000:
 
 ```
-$ docker-compose up
+docker-compose up
 ```
