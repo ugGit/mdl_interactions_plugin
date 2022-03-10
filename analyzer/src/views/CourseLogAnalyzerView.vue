@@ -103,10 +103,10 @@ export default {
     courseLogFilterOptions() {
       // init filter object with empty arrays for each field
       const filterCategories = {};
-      for (let key in this.courseLogFiltered[0]) {
+      for (let key in this.courseLogRaw[0]) {
         filterCategories[key] = [];
       }
-      const options = this.courseLogFiltered.reduce((filters, row) => {
+      const options = this.courseLogRaw.reduce((filters, row) => {
         for (let [key, val] of Object.entries(row)) {
           // add new filter option only if not yet present
           const index = filters[key].findIndex(
@@ -120,7 +120,7 @@ export default {
         return filters;
       }, filterCategories);
       // sort all options alphabetically or numerically in ascending order
-      for (let key in this.courseLogFiltered[0]) {
+      for (let key in this.courseLogRaw[0]) {
         if (typeof options[key][0] == "number") {
           options[key].sort((a, b) => a >= b);
         } else {
@@ -226,9 +226,21 @@ export default {
               grade: { grade: averageGrade },
             });
           } else {
-            // get data for user
+            // get data for user if present, else create object without zero initialized values
+            let data = {};
+            if (
+              Object.keys(this.categoryCountPerUser).includes(userid.toString())
+            ) {
+              data = Object.values(
+                this.categoryCountPerUser[userid.toString()]
+              );
+            } else {
+              this.eventCategories.forEach((category) => {
+                data[category] = 0;
+              });
+            }
             return userData.push({
-              data: Object.values(this.categoryCountPerUser[userid.toString()]),
+              data,
               name: "Student " + userid,
               role: this.courseLogRaw.find((row) => row.userid == userid)
                 .userrole,
@@ -267,7 +279,7 @@ export default {
             };
           }
 
-          // TODO: store also grade min/grade max
+          // store also grade min/grade max
           const exampleGrade = data.usergrades[0].gradeitems.find(
             (gi) => gi.itemtype == "course"
           );
