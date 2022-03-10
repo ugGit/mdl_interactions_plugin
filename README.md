@@ -8,3 +8,9 @@ Hereafter the different project folders are quickly described:
 - `docs/`: relevant papers and _log event - event category_ mapping file(s).
 - `sql_queries/`: an SQL script to extract data directly from the Moodle database with explanations of the queries used.
 - `Interactions 2.0 Updated (old plugin)/`: the old Moodle Interactions Plugin which has been developped for Moodle 2.0.
+
+## Moodle Docker Environment
+
+The here contained `docker-compose.yml` configuration file allows to setup a containerized Moodle instance. If `docker` and `docker-compose` have been installed, simply run the following command and access the Moodle instance on http://localhost:8000:
+
+`$ docker-compose up`
