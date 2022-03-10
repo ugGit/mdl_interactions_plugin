@@ -2,6 +2,15 @@
 
 The web application is built using [Vue3](https://vuejs.org/guide/introduction.html), [Vuetify](https://next.vuetifyjs.com/), and [HighCharts](https://www.highcharts.com/).
 
+## Features
+
+- Map log events to different event categories defined in an Excel sheet
+- Allow dynamic filtering of log
+- Display visualizations for individual students and average over a course
+- Available visualizations:
+  - Spiderweb diagram for to visualize frequency of different event categories
+  - Boxplot to show frequency relative to all users in the course
+
 ## Configure Moodle Instance
 
 This tool works only with a accordingly configured Moodle instance. More concretly, you it needs the [ws_la_trace_exporter web service plugin](https://github.com/ugGit/moodle_ws_la_trace_exporter) installed. Therefore follow the setup instructions of before-mentioned plugin (allow creation of web service tokens, allow acces through REST API, etc.).
