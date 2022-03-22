@@ -77,6 +77,12 @@ export default {
           },
         },
 
+        yAxis: {
+          title: {
+            text: "Nbr of Interactions",
+          },
+        },
+
         series: [
           {
             name: "Quartiles and Median",
