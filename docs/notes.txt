@@ -28,22 +28,6 @@ LASI22 paper 6 pages
 - Example extraction
   - raw data 
   - visualizations
-  
-  
-  
-
-
-Facts:
-- Four interaction categories: 
-  - Student-Whom (Student/Teacher/System/Content) => SC is related to settings
-  - Frequency (Transmission of content/Creating class interactions) 
-        => Often: ToC: Resources, Announcments, Messages 
-        => Moderatly: CCI: creating class discussions, students submit assignment + grade them
-        => Rarely: Evaluating courses 
-  - Participation of user (Active/Passive) => passive interactiosn seems more important than on the first glimps.
-  - Login Activities
-- Moodles event system (which are the logs) already categorizes into teaching, participating and others
-- There are 500 different events by default
 
 
 Meeting Points:
@@ -51,25 +35,15 @@ Meeting Points:
 - exclude site level events (use context level as criteria) (if not excluded, students with a single class have less of these events)
 
 
-
-Condiderations:
--
-
 Next Steps:
-+ Create BoxPlot
-+ highlight selected users in boxplot (ad like outliers, other color though)
-+ add info how lowerFence is calculated under boxplot
 - Create simple custom dataTable with sort, pagination, and show/hide column features. Pass all data to component, then simply render a clickable header that triggers sort. List all available columns with checkboxes to trigger display/hide, and calculate pagination using buttons
-+ Calculate and display the average
-+ add role to student information when selecting for plot
+
 - add grade for selected students (maybe there exists already a webservice for this)
 - create a plot to show "Frequency of events per category"
 - table of 20 most occured events (later data table instead of simple table)
 
-
 => remove the error_logs from the moodle plugin code
 => At the end holistic approach over all course
-=> Future it might be interesting to include user agent (desktop/web/mobile)
 => To prevent possible misclassifications, we should check in detail the interactions that occur in our test courses and mention that in the paper.
 => future work might be watching timestamps of assignment completion to deadline
 
