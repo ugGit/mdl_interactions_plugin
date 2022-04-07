@@ -103,7 +103,6 @@ export default {
                 ["useragentbased", "newlc"].includes(key) &&
                 typeof row[index] !== "undefined"
               ) {
-                console.log(row[index]);
                 rowObj[key] = row[index].substring(2); // remove the two first characters
               } else if (
                 ["activepassive"].includes(key) &&
