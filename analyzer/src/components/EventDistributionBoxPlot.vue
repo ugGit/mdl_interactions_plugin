@@ -25,7 +25,7 @@ HighchartsMore(HighCharts);
 
 export default {
   name: "EventDistributionBoxPlot",
-  props: ["data", "selectedUsers"],
+  props: ["data", "grades", "selectedUsers"],
   components: {
     VueHighcharts,
   },
@@ -43,6 +43,14 @@ export default {
           return user[l];
         });
       });
+
+      // inject the grades to the data array
+      const gradesArray = Object.keys(this.grades).map(
+        (key) => this.grades[key].grade
+      );
+      labels.push("Grades");
+      transformedData.push(gradesArray);
+
       // calculate box plot values
       for (let i = 0; i < transformedData.length; i++) {
         const boxValues = this.getBoxValues(transformedData[i]);
@@ -52,7 +60,7 @@ export default {
           boxValues.values.low,
           boxValues.values.high
         );
-        boxValues.values.outliers = boxOutliers.map((x) => [i, x]); // TODO: place this properly
+        boxValues.values.outliers = boxOutliers.map((x) => [i, x]); // TODO: place this properly, meaning if on values or somewhere else
         boxData.push(boxValues.values);
       }
 
@@ -114,45 +122,50 @@ export default {
               pointFormat: "Value: {point.y}",
             },
           },
-          {
-            name: this.selectedUsers[0].name,
-            color: HighCharts.getOptions().colors[0],
-            type: "scatter",
-            data: Object.entries(this.selectedUsers[0].data).map((point) => [
-              parseInt(point[0]),
-              point[1],
-            ]),
-            marker: {
-              fillColor: HighCharts.getOptions().colors[0],
-              lineWidth: 1,
-              lineColor: HighCharts.getOptions().colors[0],
-            },
-            tooltip: {
-              pointFormat: "Values {point.y}",
-            },
-          },
-          {
-            name: this.selectedUsers[1].name,
-            color: HighCharts.getOptions().colors[3],
-            type: "scatter",
-            data: Object.entries(this.selectedUsers[1].data).map((point) => [
-              parseInt(point[0]),
-              point[1],
-            ]),
-            marker: {
-              fillColor: HighCharts.getOptions().colors[3],
-              lineWidth: 1,
-              lineColor: HighCharts.getOptions().colors[3],
-            },
-            tooltip: {
-              pointFormat: "Values {point.y}",
-            },
-          },
+          // data definition for the first selected user
+          this.generateSelectedUserPlotConfigData(
+            0,
+            HighCharts.getOptions().colors[0]
+          ),
+          this.generateSelectedUserPlotConfigData(
+            1,
+            HighCharts.getOptions().colors[3]
+          ),
         ],
       };
     },
   },
   methods: {
+    generateSelectedUserPlotConfigData(userId, color) {
+      let pointCoordinates = Object.entries(
+        this.selectedUsers[userId].data
+      ).map((point) => [parseInt(point[0]), point[1]]);
+      if (this.selectedUsers[userId].grade) {
+        // append the grade info
+        pointCoordinates = pointCoordinates.concat([
+          [
+            this.selectedUsers[userId].data.length, // gets the x-axis index
+            this.selectedUsers[userId].grade.grade,
+          ],
+        ]);
+      }
+
+      return {
+        name: this.selectedUsers[userId].name,
+        color: color,
+        type: "scatter",
+        data: pointCoordinates,
+        marker: {
+          fillColor: color,
+          lineWidth: 1,
+          lineColor: color,
+        },
+        tooltip: {
+          pointFormat: "Values {point.y}",
+        },
+      };
+    },
+
     getOutliers(data, lowerFence, upperFence) {
       const outliers = [];
       for (var i = 0; i < data.length; i++) {
@@ -196,10 +209,25 @@ export default {
       return result;
     },
 
-    //because .sort() doesn't sort numbers correctly
+    //because .sort() doesn't sort numbers correctly (by default sorts string)
     numSort(a, b) {
       return a - b;
     },
+  },
+  mounted() {
+    console.log("hi");
+    console.log(this.grades);
+    console.log(this.data);
+
+    const labels = Object.keys(this.data[Object.keys(this.data)[0]]);
+    // transform input data to arrays containing values of each category
+    const transformedData = labels.map((l) => {
+      return Object.values(this.data).map((user) => {
+        return user[l];
+      });
+    });
+    console.log(transformedData);
+    console.log(Object.keys(this.grades).map((key) => this.grades[key].grade));
   },
 };
 </script>
