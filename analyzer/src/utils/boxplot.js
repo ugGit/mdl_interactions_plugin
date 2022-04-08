@@ -22,6 +22,7 @@ export const generateSelectedUserPlotConfigData = (user, color) => {
   };
 };
 
+// generates an object to plot data of the quartiles and median in a boxplot
 export const generateQuartileAndMedianPlotConfigData = (boxData) => {
   return {
     name: "Quartiles and Median",
@@ -33,6 +34,7 @@ export const generateQuartileAndMedianPlotConfigData = (boxData) => {
   };
 };
 
+// generates an object to plot data of outliers in a boxplot
 export const generateOutlierPlotConfigData = (boxData) => {
   return {
     name: "Outliers",
@@ -56,4 +58,54 @@ export const generateOutlierPlotConfigData = (boxData) => {
       pointFormat: "Value: {point.y}",
     },
   };
+};
+
+// because .sort() doesn't sort numbers correctly
+const numSort = (a, b) => {
+  return a - b;
+};
+
+// get any percentile from an array
+const getPercentile = (data, percentile) => {
+  data.sort(numSort);
+  var index = (percentile / 100) * data.length;
+  var result;
+  if (Math.floor(index) == index) {
+    result = (data[index - 1] + data[index]) / 2;
+  } else {
+    result = data[Math.floor(index)];
+  }
+  return result;
+};
+
+// identify the outliers outside of the interval [lowerFence, upperFence] in the current dataset
+export const getOutliers = (data, lowerFence, upperFence) => {
+  const outliers = [];
+  for (var i = 0; i < data.length; i++) {
+    if (data[i] < lowerFence || data[i] > upperFence) {
+      outliers.push(data[i]);
+    }
+  }
+  return outliers;
+};
+
+// generate meta data for boxplot
+export const getBoxValues = (data) => {
+  var boxData = {},
+    min = Math.min.apply(Math, data),
+    max = Math.max.apply(Math, data),
+    q1 = getPercentile(data, 25),
+    median = getPercentile(data, 50),
+    q3 = getPercentile(data, 75),
+    iqr = q3 - q1,
+    lowerFence = q1 - iqr * 1.5,
+    upperFence = q3 + iqr * 1.5;
+
+  boxData.values = {};
+  boxData.values.low = min < lowerFence ? lowerFence : min;
+  boxData.values.q1 = q1;
+  boxData.values.median = median;
+  boxData.values.q3 = q3;
+  boxData.values.high = max > upperFence ? upperFence : max;
+  return boxData;
 };

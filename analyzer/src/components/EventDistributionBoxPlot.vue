@@ -47,9 +47,9 @@ export default {
       });
       // calculate box plot values
       for (let i = 0; i < transformedData.length; i++) {
-        const boxValues = this.getBoxValues(transformedData[i]);
+        const boxValues = bp.getBoxValues(transformedData[i]);
         boxValues.values.x = i;
-        const boxOutliers = this.getOutliers(
+        const boxOutliers = bp.getOutliers(
           transformedData[i],
           boxValues.values.low,
           boxValues.values.high
@@ -102,55 +102,6 @@ export default {
           ),
         ],
       };
-    },
-  },
-  methods: {
-    getOutliers(data, lowerFence, upperFence) {
-      const outliers = [];
-      for (var i = 0; i < data.length; i++) {
-        if (data[i] < lowerFence || data[i] > upperFence) {
-          outliers.push(data[i]);
-        }
-      }
-      return outliers;
-    },
-
-    getBoxValues(data) {
-      var boxData = {},
-        min = Math.min.apply(Math, data),
-        max = Math.max.apply(Math, data),
-        q1 = this.getPercentile(data, 25),
-        median = this.getPercentile(data, 50),
-        q3 = this.getPercentile(data, 75),
-        iqr = q3 - q1,
-        lowerFence = q1 - iqr * 1.5,
-        upperFence = q3 + iqr * 1.5;
-
-      boxData.values = {};
-      boxData.values.low = min < lowerFence ? lowerFence : min;
-      boxData.values.q1 = q1;
-      boxData.values.median = median;
-      boxData.values.q3 = q3;
-      boxData.values.high = max > upperFence ? upperFence : max;
-      return boxData;
-    },
-
-    //get any percentile from an array
-    getPercentile(data, percentile) {
-      data.sort(this.numSort);
-      var index = (percentile / 100) * data.length;
-      var result;
-      if (Math.floor(index) == index) {
-        result = (data[index - 1] + data[index]) / 2;
-      } else {
-        result = data[Math.floor(index)];
-      }
-      return result;
-    },
-
-    //because .sort() doesn't sort numbers correctly
-    numSort(a, b) {
-      return a - b;
     },
   },
 };
