@@ -64,7 +64,7 @@ export default {
         },
 
         title: {
-          text: "",
+          text: "", // hack to not display any title
         },
 
         legend: {
