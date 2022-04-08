@@ -67,6 +67,7 @@ export default {
       return {
         chart: {
           type: "boxplot",
+          zoomType: "y",
         },
 
         title: {
@@ -213,21 +214,6 @@ export default {
     numSort(a, b) {
       return a - b;
     },
-  },
-  mounted() {
-    console.log("hi");
-    console.log(this.grades);
-    console.log(this.data);
-
-    const labels = Object.keys(this.data[Object.keys(this.data)[0]]);
-    // transform input data to arrays containing values of each category
-    const transformedData = labels.map((l) => {
-      return Object.values(this.data).map((user) => {
-        return user[l];
-      });
-    });
-    console.log(transformedData);
-    console.log(Object.keys(this.grades).map((key) => this.grades[key].grade));
   },
 };
 </script>
