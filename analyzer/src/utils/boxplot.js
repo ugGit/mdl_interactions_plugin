@@ -1,4 +1,5 @@
 import HighCharts from "highcharts";
+import { floatToFixed } from "./helpers.js";
 
 // generates an object to plot data from a user in a boxplot
 export const generateSelectedUserPlotConfigData = (user, color) => {
@@ -107,5 +108,13 @@ export const getBoxValues = (data) => {
   boxData.values.median = median;
   boxData.values.q3 = q3;
   boxData.values.high = max > upperFence ? upperFence : max;
+
+  // round number to default number of decimals
+  for (let key in boxData.values) {
+    if (typeof boxData.values[key] == "number") {
+      boxData.values[key] = floatToFixed(boxData.values[key]);
+    }
+  }
+
   return boxData;
 };
