@@ -19,6 +19,7 @@ import HighchartsMore from "highcharts/highcharts-more";
 HighchartsMore(HighCharts);
 
 import * as bp from "@/utils/boxplot";
+import { firstUserPlotColor, secondUserPlotColor } from "@/utils/constants";
 import { cloneDeep } from "lodash";
 
 export default {
@@ -104,12 +105,12 @@ export default {
           // config data for first selected user
           bp.generateSelectedUserPlotConfigData(
             this.selectedUsersAdapter[0],
-            HighCharts.getOptions().colors[0]
+            firstUserPlotColor
           ),
           // config data for second selected user
           bp.generateSelectedUserPlotConfigData(
             this.selectedUsersAdapter[1],
-            HighCharts.getOptions().colors[3]
+            secondUserPlotColor
           ),
         ],
       };

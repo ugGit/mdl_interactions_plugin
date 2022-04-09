@@ -1,5 +1,5 @@
-import HighCharts from "highcharts";
-import { floatToFixed } from "./helpers.js";
+import { floatToFixed } from "@/utils/helpers.js";
+import { blackPlotColor } from "@/utils/constants";
 
 // generates an object to plot data from a user in a boxplot
 export const generateSelectedUserPlotConfigData = (user, color) => {
@@ -27,7 +27,7 @@ export const generateSelectedUserPlotConfigData = (user, color) => {
 export const generateQuartileAndMedianPlotConfigData = (boxData) => {
   return {
     name: "Quartiles and Median",
-    color: HighCharts.getOptions().colors[1],
+    color: blackPlotColor,
     data: boxData,
     tooltip: {
       headerFormat: "<em>Category {point.key}</em><br/>",
@@ -39,7 +39,7 @@ export const generateQuartileAndMedianPlotConfigData = (boxData) => {
 export const generateOutlierPlotConfigData = (boxData) => {
   return {
     name: "Outliers",
-    color: HighCharts.getOptions().colors[1],
+    color: blackPlotColor,
     type: "scatter",
     data: [
       // x, y positions where x=0 is the first category
@@ -53,7 +53,7 @@ export const generateOutlierPlotConfigData = (boxData) => {
     marker: {
       fillColor: "white",
       lineWidth: 1,
-      lineColor: HighCharts.getOptions().colors[1],
+      lineColor: blackPlotColor,
     },
     tooltip: {
       pointFormat: "Value: {point.y}",
