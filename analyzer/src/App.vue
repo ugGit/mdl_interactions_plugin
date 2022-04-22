@@ -4,7 +4,13 @@
       color="primary"
       @click="$router.push({ name: 'connectionForm' })"
       class="py-7"
-      >To Connection Form</v-btn
+      >Connection Form</v-btn
+    >
+    <v-btn
+      color="primary"
+      @click="$router.push({ name: 'connectionForm' })"
+      class="py-7"
+      >Load CSV</v-btn
     >
   </nav>
 
