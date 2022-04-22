@@ -28,7 +28,7 @@ import { firstUserPlotColor, secondUserPlotColor } from "@/utils/constants";
 
 export default {
   name: "EventDistributionBoxPlot",
-  props: ["data", "grades", "selectedUsers"],
+  props: ["data", "selectedUsers"],
   components: {
     VueHighcharts,
   },
@@ -46,13 +46,6 @@ export default {
           return user[l];
         });
       });
-
-      // inject the grades to the data array
-      const gradesArray = Object.keys(this.grades).map(
-        (key) => this.grades[key].grade
-      );
-      labels.push("Grades");
-      transformedData.push(gradesArray);
 
       // calculate box plot values
       for (let i = 0; i < transformedData.length; i++) {
