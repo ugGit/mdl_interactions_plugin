@@ -54,7 +54,6 @@
                 selectedUserData.length > 0
               "
               :data="categoryCountPerUser"
-              :grades="courseGrades"
               :selected-users="selectedUserData"
             />
           </v-col>
