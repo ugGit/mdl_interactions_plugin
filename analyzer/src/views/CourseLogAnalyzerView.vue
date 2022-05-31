@@ -3,10 +3,24 @@
   <v-container>
     <v-row>
       <v-col cols="4">
-        <course-log-filters
-          :filter-options="courseLogFilterOptions"
-          @filterSelectionUpdated="updateFilterSelection"
-      /></v-col>
+        <v-row
+          ><v-col>
+            <download-options
+              :filtered-log="courseLogFiltered"
+              :category-count-per-user="categoryCountPerUser"
+              :event-count-per-user="eventCountPerUser"
+            ></download-options
+          ></v-col>
+        </v-row>
+        <v-row
+          ><v-col>
+            <course-log-filters
+              :filter-options="courseLogFilterOptions"
+              @filterSelectionUpdated="updateFilterSelection"
+            />
+          </v-col>
+        </v-row>
+      </v-col>
       <v-col cols="8" v-if="!isLoading">
         <v-row>
           <v-col>
@@ -77,6 +91,7 @@ import PlotUserSelection from "@/components/PlotUserSelection.vue";
 import EventDistributionBoxPlot from "@/components/EventDistributionBoxPlot.vue";
 import GradeDistributionBoxPlot from "@/components/GradeDistributionBoxPlot.vue";
 import UserSelectionDetails from "@/components/UserSelectionDetails.vue";
+import DownloadOptions from "@/components/DownloadOptions.vue";
 
 import { mapState } from "vuex";
 
@@ -94,6 +109,7 @@ export default {
     EventDistributionBoxPlot,
     UserSelectionDetails,
     GradeDistributionBoxPlot,
+    DownloadOptions,
   },
   data: function () {
     return {
